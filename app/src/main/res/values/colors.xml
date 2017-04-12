@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!--Blue-->
+    <color name="colorPrimaryDark">#FF0E80CC</color>
+    <color name="colorPrimary">#FF12B1FF</color>
+    <color name="colorAccent">#FF12B1ff</color>
+    <color name="active_button">#12B1FF</color>
+
+    <color name="blue">#0076FF</color>
+
+    <color name="midnight">#34353B</color>
+
+    <!-- main activity -->
+    <color name="mainPageActivityToolbar">#FF3D3F48</color>
+    <color name="mainPageActivityStatusBar">#34353B</color>
+    <color name="mainPageActivityAccent">#FF1599FF</color>
+
+    <!--Green-->
+    <color name="green_button">#5BD409</color>
+    <color name="green">#FF00FF57</color>
+
+    <!--Black-->
+    <color name="primaryText">#FF2a3541</color>
+
+    <!--Gray-->
+    <color name="secondaryText">#FF8A949E</color>
+    <color name="grayIcons">#FF8A949E</color>
+    <color name="divider">#FFCED4DA</color>
+    <color name="disableButton">#FFE8EFF4</color>
+    <color name="background">#FFF2F5F8</color>
+
+    <!--White-->
+    <color name="accentTab">#FFFFFFFF</color>
+    <color name="icons">#FFFFFFFF</color>
+
+    <color name="acceptButton">#FF5BD409</color>
+
+    <color name="iconsDisableColor">#8C959E</color>
+
+
+    <color name="yellow">#e1d377</color>
+
+    <!-- noteModel book activity-->
+    <color name="notebookToolbarColor">#FF735840</color>
+    <color name="notebookStatusBarColor">#FF5C4634</color>
+
+    <color name="noteBackground">#eae6b3</color>
+    <color name="noteBackgroundDark">#dad7a6</color>
+    <color name="noteBackgroundDarker">#d6d3a2</color>
+
+    <color name="shadow">#30000000</color>
+
+    <color name="red">#e73d3d</color>
+
 </resources>

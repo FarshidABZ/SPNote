@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">SuperNote</string>
+    <string name="notebook">NoteBook</string>
+    <string name="folder_name">Folder Name</string>
+    <string name="note_name">Note Name</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="choose_background_image">Choose Background Image</string>
+    <string name="rename">Rename</string>
+    <string name="delete">Delete</string>
+    <string name="info">Info</string>
+    <string name="edit_cover">Edit cover</string>
+    <string name="text_style_text">A</string>
+    <string name="type_mode">Type Mode</string>
+    <string name="text_style">Text Style</string>
+    <string name="color">Color</string>
+    <string name="pen_thickness">Pen Thickness</string>
+    <string name="no_note_availabe">There is no noteModel available!</string>
+    <string name="tap_plus_to_new_note">Tap on “+” to add new noteModel.</string>
+    <string name="paper_style">Paper Style</string>
+    <string name="save">Save</string>
+    <string name="discard">Discard</string>
+
 </resources>
