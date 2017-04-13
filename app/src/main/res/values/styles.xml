@@ -16,4 +16,10 @@
         <item name="colorAccent">@color/mainPageActivityAccent</item>
     </style>
 
+    <style name="NoteActivitiesTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/notebookToolbarColor</item>
+        <item name="colorPrimaryDark">@color/notebookStatusBarColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
 </resources>

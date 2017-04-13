@@ -21,4 +21,6 @@
     <string name="save">Save</string>
     <string name="discard">Discard</string>
 
+    <string name="folder_pages_count">%1$d pages</string>
+
 </resources>

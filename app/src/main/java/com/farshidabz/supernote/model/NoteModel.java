@@ -5,17 +5,19 @@ package com.farshidabz.supernote.model;
  * Since 4/12/2017.
  */
 public class NoteModel {
-    private long id;
+    private int id;
+    private int folder_id;
+
     private String address;
     private String title;
     private String content;
     private int background;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -49,5 +51,13 @@ public class NoteModel {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public int getFolder_id() {
+        return folder_id;
+    }
+
+    public void setFolder_id(int folder_id) {
+        this.folder_id = folder_id;
     }
 }

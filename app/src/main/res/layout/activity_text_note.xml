@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/textNoteActivityRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/noteBackground">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/text_note_toolbar" />
+
+        <EditText
+            android:id="@+id/etContentField"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/line_edit_text"
+            android:gravity="top"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

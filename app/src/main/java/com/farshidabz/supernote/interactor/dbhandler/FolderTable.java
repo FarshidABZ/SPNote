@@ -23,13 +23,13 @@ public class FolderTable extends Table<FolderModel> {
 
     private final String COLUMN_ID = "id";
     private final String COLUMN_TITLE = "title";
-    private final String COLUMN_PATH = "path";
+    private final String COLUMN_ADDRESS = "address";
 
     @Override
     protected void setColumns(HashMap<String, String> columns) {
         columns.put(COLUMN_ID, "int primary key");
         columns.put(COLUMN_TITLE, "varchar(60)");
-        columns.put(COLUMN_PATH, "int");
+        columns.put(COLUMN_ADDRESS, "varchar(250)");
     }
 
     @Override
@@ -37,6 +37,7 @@ public class FolderTable extends Table<FolderModel> {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_TITLE, folderModel.getTitle());
+        values.put(COLUMN_ADDRESS, folderModel.getAddress());
 
         return db.update(getTableName(), values, COLUMN_ID + "=" + folderModel.getId(), null) > 0;
     }
@@ -47,6 +48,7 @@ public class FolderTable extends Table<FolderModel> {
         ContentValues values = new ContentValues();
         values.put(COLUMN_ID, folderModel.getId());
         values.put(COLUMN_TITLE, folderModel.getTitle());
+        values.put(COLUMN_ADDRESS, folderModel.getAddress());
 
         return (db.insert(getTableName(), null, values) > 0);
     }
@@ -56,6 +58,7 @@ public class FolderTable extends Table<FolderModel> {
         FolderModel folderModel = new FolderModel();
         folderModel.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
         folderModel.setTitle(c.getString(c.getColumnIndex(COLUMN_TITLE)));
+        folderModel.setAddress(c.getString(c.getColumnIndex(COLUMN_ADDRESS)));
         return folderModel;
     }
 }
