@@ -69,9 +69,10 @@
             android:id="@+id/tvTextStyleApply"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:background="@color/mainPageActivityAccent"
             android:layout_gravity="bottom"
             android:gravity="center"
-            android:text="@string/cancel"
+            android:text="@string/done"
             android:textColor="@color/white"
             android:textSize="14sp" />
 

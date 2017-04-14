@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.ui.note.TextNoteActivity"
+            android:name=".view.ui.note.NoteActivity"
             android:theme="@style/NoteActivitiesTheme" />
         <activity android:name=".view.ui.drawing.DrawingActivity"></activity>
     </application>

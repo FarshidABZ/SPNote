@@ -14,11 +14,10 @@ import com.farshidabz.supernote.model.NoteModel;
 import com.farshidabz.supernote.model.UserData;
 import com.farshidabz.supernote.presenter.impls.RecoveryAndBackupPresenterImpl;
 import com.farshidabz.supernote.presenter.presenter.RecoveryAndBackupPresenter;
-import com.farshidabz.supernote.view.ui.drawing.DrawingActivity;
 import com.farshidabz.supernote.view.ui.mainpage.viewtypes.EmptyStateItem;
 import com.farshidabz.supernote.view.ui.mainpage.viewtypes.FolderItem;
 import com.farshidabz.supernote.view.ui.mainpage.viewtypes.NotesItem;
-import com.farshidabz.supernote.view.ui.note.TextNoteActivity;
+import com.farshidabz.supernote.view.ui.note.NoteActivity;
 import com.farshidabz.supernote.view.views.mainpage.MainPageView;
 
 import java.util.ArrayList;
@@ -34,20 +33,14 @@ import ir.coderz.ghostadapter.GhostAdapter;
  * Since 4/12/2017.
  */
 
-public class MainPageActivity extends AppCompatActivity implements MainPageView, OnFabClickListener {
+public class MainPageActivity extends AppCompatActivity implements MainPageView {
     @BindView(R.id.rvMainPage)
     RecyclerView rvMainPage;
-
-    @BindView(R.id.fabDrawingMode)
-    FloatingActionButton fabDrawingMode;
     @BindView(R.id.fabAddNewNote)
     FloatingActionButton fabAddNewNote;
-    @BindView(R.id.fabTextMode)
-    FloatingActionButton fabTextMode;
 
     GhostAdapter ghostAdapter;
     List<Object> items;
-    private FabHandler fabHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +48,6 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
         setContentView(R.layout.activity_main_page);
 
         ButterKnife.bind(this);
-
-        fabHandler = new FabHandler(this, this, fabTextMode, fabDrawingMode);
 
         initRvMainPage();
         getUserNotes();
@@ -76,9 +67,7 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
 
     @OnClick(R.id.fabAddNewNote)
     public void onFabAddNewNoteClicked() {
-        fabHandler.fabClicked();
-        fabHandler.hideSpecificFab(fabAddNewNote);
-        fabHandler.showSpecificFab(fabAddNewNote);
+        ActivityFactory.startActivity(this, NoteActivity.class.getSimpleName());
     }
 
     @Override
@@ -102,19 +91,5 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
     public void showEmptyState() {
         rvMainPage.setLayoutManager(new LinearLayoutManager(this));
         ghostAdapter.addItem(new EmptyStateItem());
-    }
-
-    @Override
-    public void onFabClicked(int id) {
-        Bundle bundle = new Bundle();
-
-        switch (id) {
-            case R.id.fabTextMode:
-                ActivityFactory.startActivity(this, TextNoteActivity.class.getSimpleName());
-                break;
-            case R.id.fabDrawingMode:
-                ActivityFactory.startActivity(this, DrawingActivity.class.getSimpleName());
-                break;
-        }
     }
 }

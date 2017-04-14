@@ -4,9 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.farshidabz.supernote.view.ui.drawing.DrawingActivity;
 import com.farshidabz.supernote.view.ui.mainpage.MainPageActivity;
-import com.farshidabz.supernote.view.ui.note.TextNoteActivity;
+import com.farshidabz.supernote.view.ui.note.NoteActivity;
 
 /**
  * Created by FarshidAbz.
@@ -26,10 +25,8 @@ public class ActivityFactory {
         switch (activityName) {
             case "MainPageActivity":
                 return new Intent(context, MainPageActivity.class);
-            case "TextNoteActivity":
-                return new Intent(context, TextNoteActivity.class);
-            case "DrawingActivity":
-                return new Intent(context, DrawingActivity.class);
+            case "NoteActivity":
+                return new Intent(context, NoteActivity.class);
             default:
                 return new Intent(context, MainPageActivity.class);
         }

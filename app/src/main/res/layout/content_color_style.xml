@@ -20,62 +20,91 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:orientation="horizontal"
         android:paddingBottom="24dp"
-        android:paddingTop="24dp"
-        android:baselineAligned="false">
+        android:paddingTop="24dp">
 
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
             android:layout_weight="1">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/imgBlack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerInParent="true"
-                app:srcCompat="@drawable/circle_black" />
+            <RelativeLayout
+                android:id="@+id/rlBlack"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_centerInParent="true">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_centerInParent="true"
+                    app:srcCompat="@drawable/circle_black" />
+
+            </RelativeLayout>
+
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
             android:layout_weight="1">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/imgRed"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerInParent="true"
-                app:srcCompat="@drawable/circle_red" />
+            <RelativeLayout
+                android:id="@+id/rlRed"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_centerInParent="true">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_centerInParent="true"
+                    app:srcCompat="@drawable/circle_red" />
+            </RelativeLayout>
+
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
             android:layout_weight="1">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/imgGreen"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/circle_midnight"
-                app:srcCompat="@drawable/circle_green" />
+            <RelativeLayout
+                android:id="@+id/rlGreen"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_centerInParent="true">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/circle_midnight"
+                    app:srcCompat="@drawable/circle_green" />
+            </RelativeLayout>
+
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="42dp"
             android:layout_weight="1">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/imgBlue"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerInParent="true"
-                app:srcCompat="@drawable/circle_blue" />
+            <RelativeLayout
+                android:id="@+id/rlBlue"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_centerInParent="true">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_centerInParent="true"
+                    app:srcCompat="@drawable/circle_blue" />
+            </RelativeLayout>
+
         </RelativeLayout>
 
     </LinearLayout>

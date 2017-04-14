@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.farshidabz.supernote.R;
+import com.farshidabz.supernote.util.widgets.DrawingView;
 import com.farshidabz.supernote.view.ui.note.paperstyle.PaperStyleBottomSheet;
 import com.farshidabz.supernote.view.ui.note.textstyle.TextStyle;
 import com.farshidabz.supernote.view.ui.note.textstyle.TextStyleBottomSheet;
@@ -18,14 +19,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TextNoteActivity extends AppCompatActivity {
+public class NoteActivity extends AppCompatActivity {
 
-    @BindView(R.id.textNoteActivityToolbar)
-    Toolbar textNoteActivityToolbar;
+    @BindView(R.id.NoteActivityToolbar)
+    Toolbar noteActivityToolbar;
     @BindView(R.id.imgTextStyle)
     ImageView imgTextStyle;
     @BindView(R.id.etContentField)
     EditText etContentField;
+    @BindView(R.id.imgEraser)
+    ImageView imgEraser;
+    @BindView(R.id.imgPenPicker)
+    ImageView imgPenPicker;
+    @BindView(R.id.drawingView)
+    DrawingView drawingView;
+
     private NoteInputEditTextHandler noteInputEditTextHandler;
 
     @Override
@@ -36,12 +44,13 @@ public class TextNoteActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         noteInputEditTextHandler = new NoteInputEditTextHandler(etContentField);
+        noteInputEditTextHandler.setInputTypeMode(false, drawingView);
 
         iniToolbar();
     }
 
     private void iniToolbar() {
-        setSupportActionBar(textNoteActivityToolbar);
+        setSupportActionBar(noteActivityToolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -59,7 +68,7 @@ public class TextNoteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.mnuDiscard:
-                onBackPressed();
+                drawingView.setErase(true);
                 break;
             case R.id.mnuPaperStyle:
                 showPaperStyle();
@@ -74,7 +83,7 @@ public class TextNoteActivity extends AppCompatActivity {
                         noteInputEditTextHandler.getPaperStyleId());
 
         paperStyleBottomSheet.setOnPaperStyleSelectedListener((paperStyleId, paperId) ->
-                noteInputEditTextHandler.changePaperStyle(paperStyleId, paperId));
+                noteInputEditTextHandler.setPaperStyle(paperStyleId, paperId));
 
         paperStyleBottomSheet.show(getSupportFragmentManager(), paperStyleBottomSheet.getTag());
     }
@@ -82,6 +91,8 @@ public class TextNoteActivity extends AppCompatActivity {
     @OnClick(R.id.imgTextStyle)
     public void onImgTextStyleClicked() {
         final TextStyleBottomSheet textStyleBottomSheet = TextStyleBottomSheet.newInstance(TextStyle.REGULAR, R.color.blue);
+        textStyleBottomSheet.setOnTextStyleChangeListener((textStyle, colorId) ->
+                noteInputEditTextHandler.setTextStyle(textStyle, colorId));
         textStyleBottomSheet.show(getSupportFragmentManager(), textStyleBottomSheet.getTag());
     }
 }

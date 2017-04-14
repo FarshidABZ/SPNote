@@ -27,6 +27,7 @@ public class NotesTable extends Table<NoteModel> {
     private final String COLUMN_ADDRESS = "address";
     private final String COLUMN_TITLE = "title";
     private final String COLUMN_CONTENT = "content";
+    private final String COLUMN_TYPE = "type";
     private final String COLUMN_BACKGROUND_DRAWABLE_ID = "background";
 
     @Override
@@ -36,6 +37,7 @@ public class NotesTable extends Table<NoteModel> {
         columns.put(COLUMN_ADDRESS, "varchar(250)");
         columns.put(COLUMN_TITLE, "varchar(60)");
         columns.put(COLUMN_CONTENT, "text");
+        columns.put(COLUMN_TYPE, "varchar(10)");
         columns.put(COLUMN_BACKGROUND_DRAWABLE_ID, "int");
     }
 
@@ -62,6 +64,7 @@ public class NotesTable extends Table<NoteModel> {
         values.put(COLUMN_ADDRESS, noteModel.getAddress());
         values.put(COLUMN_TITLE, noteModel.getTitle());
         values.put(COLUMN_CONTENT, noteModel.getContent());
+        values.put(COLUMN_TYPE, noteModel.getType());
         values.put(COLUMN_BACKGROUND_DRAWABLE_ID, noteModel.getBackground());
 
         return (db.insert(getTableName(), null, values) > 0);
@@ -76,6 +79,7 @@ public class NotesTable extends Table<NoteModel> {
         noteModel.setAddress(c.getString(c.getColumnIndex(COLUMN_ADDRESS)));
         noteModel.setTitle(c.getString(c.getColumnIndex(COLUMN_TITLE)));
         noteModel.setContent(c.getString(c.getColumnIndex(COLUMN_CONTENT)));
+        noteModel.setContent(c.getString(c.getColumnIndex(COLUMN_TYPE)));
         noteModel.setBackground(c.getColumnIndex(COLUMN_BACKGROUND_DRAWABLE_ID));
 
         return noteModel;

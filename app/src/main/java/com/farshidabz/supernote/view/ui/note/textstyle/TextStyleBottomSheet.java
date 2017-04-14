@@ -6,11 +6,13 @@ import android.support.v7.widget.AppCompatImageView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.farshidabz.supernote.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by FarshidAbz.
@@ -18,15 +20,14 @@ import butterknife.ButterKnife;
  */
 
 public class TextStyleBottomSheet extends BottomSheetDialogFragment {
-
-    @BindView(R.id.imgBlue)
-    AppCompatImageView imgBlue;
-    @BindView(R.id.imgBlack)
-    AppCompatImageView imgBlack;
-    @BindView(R.id.imgRed)
-    AppCompatImageView imgRed;
-    @BindView(R.id.imgGreen)
-    AppCompatImageView imgGreen;
+    @BindView(R.id.rlBlue)
+    RelativeLayout rlBlue;
+    @BindView(R.id.rlBlack)
+    RelativeLayout rlBlack;
+    @BindView(R.id.rlRed)
+    RelativeLayout rlRed;
+    @BindView(R.id.rlGreen)
+    RelativeLayout rlGreen;
     @BindView(R.id.imgRegular)
     AppCompatImageView imgRegular;
     @BindView(R.id.imgItalic)
@@ -34,10 +35,14 @@ public class TextStyleBottomSheet extends BottomSheetDialogFragment {
     @BindView(R.id.imgBold)
     AppCompatImageView imgBold;
 
+    RelativeLayout selectedColor;
+    AppCompatImageView selectedTextStyle;
+
     private int colorId;
     private String textStyle;
 
     private View rootView;
+    private OnTextStyleChangeListener onTextStyleChangeListener;
 
     public static TextStyleBottomSheet newInstance(@TextStyle String textStyle, int colorId) {
         TextStyleBottomSheet textStyleBottomSheet = new TextStyleBottomSheet();
@@ -46,6 +51,10 @@ public class TextStyleBottomSheet extends BottomSheetDialogFragment {
         args.putString("textStyle", textStyle);
         textStyleBottomSheet.setArguments(args);
         return textStyleBottomSheet;
+    }
+
+    public void setOnTextStyleChangeListener(OnTextStyleChangeListener onTextStyleChangeListener) {
+        this.onTextStyleChangeListener = onTextStyleChangeListener;
     }
 
     @Override
@@ -63,41 +72,106 @@ public class TextStyleBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void initStyles() {
-        initColors();
-        initStyle();
+        setColors();
+        setTextStyle();
     }
 
-    private void initColors() {
+    private void setColors() {
         switch (colorId) {
             case R.color.blue:
-                imgBlue.setImageResource(R.drawable.circle_blue_selected);
+                selectedColor = rlBlue;
                 break;
             case R.color.black:
-                imgBlack.setImageResource(R.drawable.circle_black_selected);
+                selectedColor = rlBlack;
                 break;
             case R.color.red:
-                imgRed.setImageResource(R.drawable.circle_red_selected);
+                selectedColor = rlRed;
                 break;
             case R.color.green:
-                imgGreen.setImageResource(R.drawable.circle_green_selected);
+                selectedColor = rlGreen;
                 break;
         }
+
+        setSelectedColorBackground(selectedColor);
     }
 
-    private void initStyle() {
+    private void setSelectedColorBackground(RelativeLayout selectedColor) {
+        this.selectedColor.setBackgroundResource(0);
+        this.selectedColor = selectedColor;
+        selectedColor.setBackgroundResource(R.drawable.circle_midnight_selected);
+    }
+
+    private void setTextStyle() {
         switch (textStyle) {
             case TextStyle.BOLD:
-                imgBold.setBackgroundResource(R.drawable.circle_midnight_selected);
+                selectedTextStyle = imgBold;
                 break;
             case TextStyle.ITALIC:
-                imgItalic.setBackgroundResource(R.drawable.circle_midnight_selected);
+                selectedTextStyle = imgItalic;
                 break;
             case TextStyle.REGULAR:
-                imgRegular.setBackgroundResource(R.drawable.circle_midnight_selected);
+                selectedTextStyle = imgRegular;
                 break;
             default:
-                imgRegular.setBackgroundResource(R.drawable.circle_midnight_selected);
+                selectedTextStyle = imgRegular;
                 break;
         }
+
+        setSelectedTextStyleBackground(selectedTextStyle);
+    }
+
+    private void setSelectedTextStyleBackground(AppCompatImageView selectedTextStyle) {
+        this.selectedTextStyle.setBackgroundResource(0);
+        this.selectedTextStyle = selectedTextStyle;
+        selectedTextStyle.setBackgroundResource(R.drawable.circle_midnight_selected);
+    }
+
+    @OnClick(R.id.rlGreen)
+    public void onGreenClicked() {
+        colorId = R.color.green;
+        setSelectedColorBackground(rlGreen);
+    }
+
+    @OnClick(R.id.rlBlue)
+    public void onBlueClicked() {
+        colorId = R.color.blue;
+        setSelectedColorBackground(rlBlue);
+    }
+
+    @OnClick(R.id.rlBlack)
+    public void onBlackClicked() {
+        colorId = R.color.black;
+        setSelectedColorBackground(rlBlack);
+    }
+
+    @OnClick(R.id.rlRed)
+    public void onRedClicked() {
+        colorId = R.color.red;
+        setSelectedColorBackground(rlRed);
+    }
+
+    @OnClick(R.id.imgBold)
+    public void onBoldClicked() {
+        textStyle = TextStyle.BOLD;
+        setSelectedTextStyleBackground(imgBold);
+    }
+
+    @OnClick(R.id.imgRegular)
+    public void onRegularClicked() {
+        textStyle = TextStyle.ITALIC;
+        setSelectedTextStyleBackground(imgRegular);
+    }
+
+    @OnClick(R.id.imgItalic)
+    public void onItalicClicked() {
+        textStyle = TextStyle.REGULAR;
+        setSelectedTextStyleBackground(imgItalic);
+    }
+
+    @OnClick(R.id.tvTextStyleApply)
+    public void onDoneClicked() {
+        if(onTextStyleChangeListener != null)
+            onTextStyleChangeListener.textStyleChanged(textStyle, colorId);
+        dismiss();
     }
 }

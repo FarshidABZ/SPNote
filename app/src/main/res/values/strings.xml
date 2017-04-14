@@ -25,8 +25,12 @@
     <string name="simple">Simple</string>
     <string name="line">Line</string>
     <string name="grid">Grid</string>
+    <string name="open">Open</string>
+    <string name="move">Move</string>
+    <string name="remove">Remove</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="done">DONE</string>
 
 </resources>
