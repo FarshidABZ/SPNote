@@ -14,6 +14,7 @@ import com.farshidabz.supernote.model.NoteModel;
 import com.farshidabz.supernote.model.UserData;
 import com.farshidabz.supernote.presenter.impls.RecoveryAndBackupPresenterImpl;
 import com.farshidabz.supernote.presenter.presenter.RecoveryAndBackupPresenter;
+import com.farshidabz.supernote.view.ui.drawing.DrawingActivity;
 import com.farshidabz.supernote.view.ui.mainpage.viewtypes.EmptyStateItem;
 import com.farshidabz.supernote.view.ui.mainpage.viewtypes.FolderItem;
 import com.farshidabz.supernote.view.ui.mainpage.viewtypes.NotesItem;
@@ -112,7 +113,7 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView,
                 ActivityFactory.startActivity(this, TextNoteActivity.class.getSimpleName());
                 break;
             case R.id.fabDrawingMode:
-                ActivityFactory.startActivity(this, TextNoteActivity.class.getSimpleName());
+                ActivityFactory.startActivity(this, DrawingActivity.class.getSimpleName());
                 break;
         }
     }

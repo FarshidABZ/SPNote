@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/textNoteActivityRoot"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/noteBackground">
+    android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <include layout="@layout/text_note_toolbar" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <EditText
             android:id="@+id/etContentField"
@@ -18,10 +24,15 @@
             android:layout_height="match_parent"
             android:background="@drawable/line_edit_text"
             android:gravity="top"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
             android:textSize="14sp" />
 
-    </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@drawable/bottom_shadow" />
+
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

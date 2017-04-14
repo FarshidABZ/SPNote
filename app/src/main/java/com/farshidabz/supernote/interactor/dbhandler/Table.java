@@ -65,8 +65,6 @@ public abstract class Table<T> {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        String query = getKeyColumn() + "=" + id;
-
         Cursor c = db.query(getTableName(), getColumns(), getKeyColumn() + "=" + Integer.toString(id), null, null, null, null);
 
         c.moveToFirst();

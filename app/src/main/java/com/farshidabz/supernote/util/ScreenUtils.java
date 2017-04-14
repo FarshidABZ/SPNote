@@ -16,18 +16,14 @@ public class ScreenUtils {
         Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-        return width;
+        return size.x;
     }
 
     public static int getScreenHeight(Context context) {
         Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-        return height;
+        return size.y;
     }
 
     public static int dpToPx(Context context, int dp) {

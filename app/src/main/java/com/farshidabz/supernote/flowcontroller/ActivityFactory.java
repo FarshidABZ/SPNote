@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.farshidabz.supernote.view.ui.drawing.DrawingActivity;
 import com.farshidabz.supernote.view.ui.mainpage.MainPageActivity;
 import com.farshidabz.supernote.view.ui.note.TextNoteActivity;
 
@@ -27,6 +28,8 @@ public class ActivityFactory {
                 return new Intent(context, MainPageActivity.class);
             case "TextNoteActivity":
                 return new Intent(context, TextNoteActivity.class);
+            case "DrawingActivity":
+                return new Intent(context, DrawingActivity.class);
             default:
                 return new Intent(context, MainPageActivity.class);
         }
