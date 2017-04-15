@@ -9,9 +9,10 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.farshidabz.supernote.util.ScreenUtils;
 
 /**
  * Created by FarshidAbz.
@@ -35,6 +36,7 @@ public class DrawingView extends View {
     private Paint paint;
 
     private float brushSize;
+    private boolean canDraw;
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -49,7 +51,6 @@ public class DrawingView extends View {
         initPaint();
     }
 
-
     private void initPaint() {
         paint = new Paint();
         paint.setAntiAlias(true);
@@ -58,7 +59,7 @@ public class DrawingView extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
-        paint.setStrokeWidth(12);
+        paint.setStrokeWidth(ScreenUtils.dpToPx(context, 4));
     }
 
     @Override
@@ -82,9 +83,8 @@ public class DrawingView extends View {
         invalidate();
     }
 
-    public void setBrushSize(float size) {
-        brushSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                size, getResources().getDisplayMetrics());
+    public void setBrushSize(int size) {
+        brushSize = ScreenUtils.dpToPx(context, size);
         paint.setStrokeWidth(brushSize);
     }
 
@@ -111,8 +111,15 @@ public class DrawingView extends View {
         path.reset();
     }
 
+    public void canDraw(boolean canDraw) {
+        this.canDraw = canDraw;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (!canDraw)
+            return false;
+
         float x = event.getX();
         float y = event.getY();
 
@@ -136,8 +143,7 @@ public class DrawingView extends View {
     public void setErase(boolean isErase) {
         if (isErase) {
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-            paint.setStrokeWidth(48);
-            paint.setAlpha(0);
+            setBrushSize(12);
         } else {
             paint.setXfermode(null);
         }

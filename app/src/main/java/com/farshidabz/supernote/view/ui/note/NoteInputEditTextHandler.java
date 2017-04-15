@@ -1,6 +1,8 @@
 package com.farshidabz.supernote.view.ui.note;
 
-import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.widget.EditText;
 
 import com.farshidabz.supernote.R;
@@ -16,9 +18,11 @@ public class NoteInputEditTextHandler {
     private EditText inputEditText;
     private int paperStyleId;
     private int paperId;
-    private String textStyle;
+    private int textStyle;
 
     private int textColorId;
+    private int startPos;
+    private int endPos;
 
     public NoteInputEditTextHandler(EditText inputEditText) {
         this.inputEditText = inputEditText;
@@ -31,11 +35,17 @@ public class NoteInputEditTextHandler {
         inputEditText.setBackgroundResource(paperId);
     }
 
-    public void setTextStyle(@TextStyle String textStyle, int textColorId) {
+    public void setTextStyle(@TextStyle int textStyle, int textColorId) {
         this.textStyle = textStyle;
         this.textColorId = textColorId;
 
-        inputEditText.setTypeface(inputEditText.getTypeface(), Typeface.BOLD);
+        Spannable spannable = inputEditText.getText();
+
+        spannable.setSpan(new StyleSpan(textStyle), startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(inputEditText.getContext().getResources().getColor(textColorId)), startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        inputEditText.setText(spannable);
+        inputEditText.setSelection(inputEditText.getText().length());
     }
 
     public int getBackgroundResId() {
@@ -54,11 +64,11 @@ public class NoteInputEditTextHandler {
         return paperStyleId;
     }
 
-    public String getTextStyle() {
-        if (textStyle != null || !textStyle.equals(""))
-            return textStyle;
+    public int getTextStyle() {
+        if (textStyle == 0)
+            return TextStyle.REGULAR;
 
-        return TextStyle.REGULAR;
+        return textStyle;
     }
 
     public int getTextColorId() {
@@ -69,6 +79,11 @@ public class NoteInputEditTextHandler {
     }
 
     public void setInputTypeMode(boolean writingMode, DrawingView drawingView) {
+        if (writingMode)
+            drawingView.canDraw(false);
+        else
+            drawingView.canDraw(true);
+
         inputEditText.setOnTouchListener((v, event) -> {
             if (!writingMode) {
                 drawingView.onTouchEvent(event);
@@ -77,5 +92,10 @@ public class NoteInputEditTextHandler {
                 return false;
             }
         });
+    }
+
+    public void setSelectionPos(int startPos, int endPos) {
+        this.startPos = startPos;
+        this.endPos = endPos;
     }
 }

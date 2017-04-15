@@ -1,5 +1,7 @@
 package com.farshidabz.supernote.model;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by FarshidAbz.
  * Since 4/12/2017.
@@ -13,6 +15,8 @@ public class NoteModel {
     private String content;
     private String type;
     private int background;
+
+    private Bitmap image;
 
     public int getId() {
         return id;
@@ -68,5 +72,13 @@ public class NoteModel {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 }

@@ -28,7 +28,7 @@ public class UserData {
     }
 
     public boolean isEmpty() {
-        return folderModel == null || noteModel == null ||
-                getNoteModel().size() == 0 || getFolderModel().size() == 0;
+        return folderModel == null && noteModel == null ||
+                getNoteModel().size() == 0 && getFolderModel().size() == 0;
     }
 }

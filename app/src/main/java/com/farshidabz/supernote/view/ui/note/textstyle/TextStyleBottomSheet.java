@@ -39,16 +39,17 @@ public class TextStyleBottomSheet extends BottomSheetDialogFragment {
     AppCompatImageView selectedTextStyle;
 
     private int colorId;
-    private String textStyle;
+    private int formatColorId;
 
-    private View rootView;
+    private int textStyle;
+
     private OnTextStyleChangeListener onTextStyleChangeListener;
 
-    public static TextStyleBottomSheet newInstance(@TextStyle String textStyle, int colorId) {
+    public static TextStyleBottomSheet newInstance(@TextStyle int textStyle, int colorId) {
         TextStyleBottomSheet textStyleBottomSheet = new TextStyleBottomSheet();
         Bundle args = new Bundle();
         args.putInt("colorId", colorId);
-        args.putString("textStyle", textStyle);
+        args.putInt("textStyle", textStyle);
         textStyleBottomSheet.setArguments(args);
         return textStyleBottomSheet;
     }
@@ -60,11 +61,11 @@ public class TextStyleBottomSheet extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.bottomsheet_text_style, container, false);
+        View rootView = inflater.inflate(R.layout.bottomsheet_text_style, container, false);
         ButterKnife.bind(this, rootView);
 
         colorId = getArguments().getInt("colorId");
-        textStyle = getArguments().getString("textStyle");
+        textStyle = getArguments().getInt("textStyle");
 
         initStyles();
 
@@ -80,15 +81,19 @@ public class TextStyleBottomSheet extends BottomSheetDialogFragment {
         switch (colorId) {
             case R.color.blue:
                 selectedColor = rlBlue;
+                formatColorId = R.drawable.ic_format_color_text_blue;
                 break;
             case R.color.black:
                 selectedColor = rlBlack;
+                formatColorId = R.drawable.ic_format_color_text_black;
                 break;
             case R.color.red:
                 selectedColor = rlRed;
+                formatColorId = R.drawable.ic_format_color_text_red;
                 break;
             case R.color.green:
                 selectedColor = rlGreen;
+                formatColorId = R.drawable.ic_format_color_text_green;
                 break;
         }
 
@@ -129,24 +134,28 @@ public class TextStyleBottomSheet extends BottomSheetDialogFragment {
     @OnClick(R.id.rlGreen)
     public void onGreenClicked() {
         colorId = R.color.green;
+        formatColorId = R.drawable.ic_format_color_text_green;
         setSelectedColorBackground(rlGreen);
     }
 
     @OnClick(R.id.rlBlue)
     public void onBlueClicked() {
         colorId = R.color.blue;
+        formatColorId = R.drawable.ic_format_color_text_blue;
         setSelectedColorBackground(rlBlue);
     }
 
     @OnClick(R.id.rlBlack)
     public void onBlackClicked() {
         colorId = R.color.black;
+        formatColorId = R.drawable.ic_format_color_text_black;
         setSelectedColorBackground(rlBlack);
     }
 
     @OnClick(R.id.rlRed)
     public void onRedClicked() {
         colorId = R.color.red;
+        formatColorId = R.drawable.ic_format_color_text_red;
         setSelectedColorBackground(rlRed);
     }
 
@@ -158,20 +167,20 @@ public class TextStyleBottomSheet extends BottomSheetDialogFragment {
 
     @OnClick(R.id.imgRegular)
     public void onRegularClicked() {
-        textStyle = TextStyle.ITALIC;
+        textStyle = TextStyle.REGULAR;
         setSelectedTextStyleBackground(imgRegular);
     }
 
     @OnClick(R.id.imgItalic)
     public void onItalicClicked() {
-        textStyle = TextStyle.REGULAR;
+        textStyle = TextStyle.ITALIC;
         setSelectedTextStyleBackground(imgItalic);
     }
 
     @OnClick(R.id.tvTextStyleApply)
     public void onDoneClicked() {
-        if(onTextStyleChangeListener != null)
-            onTextStyleChangeListener.textStyleChanged(textStyle, colorId);
+        if (onTextStyleChangeListener != null)
+            onTextStyleChangeListener.textStyleChanged(textStyle, colorId, formatColorId);
         dismiss();
     }
 }

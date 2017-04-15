@@ -1,25 +1,26 @@
 package com.farshidabz.supernote.view.ui.note;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.farshidabz.supernote.R;
 import com.farshidabz.supernote.util.widgets.DrawingView;
-import com.farshidabz.supernote.view.ui.note.paperstyle.PaperStyleBottomSheet;
-import com.farshidabz.supernote.view.ui.note.textstyle.TextStyle;
-import com.farshidabz.supernote.view.ui.note.textstyle.TextStyleBottomSheet;
+import com.farshidabz.supernote.view.ui.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NoteActivity extends AppCompatActivity {
+public class NoteActivity extends BaseActivity implements NoteMvpView {
 
     @BindView(R.id.NoteActivityToolbar)
     Toolbar noteActivityToolbar;
@@ -29,10 +30,17 @@ public class NoteActivity extends AppCompatActivity {
     EditText etContentField;
     @BindView(R.id.imgEraser)
     ImageView imgEraser;
-    @BindView(R.id.imgPenPicker)
-    ImageView imgPenPicker;
+    @BindView(R.id.imgDrawingPen)
+    ImageView imgDrawingPen;
     @BindView(R.id.drawingView)
     DrawingView drawingView;
+    @BindView(R.id.imgInputTypeSwitcher)
+    ImageView imgInputTypeSwitcher;
+    @BindView(R.id.tvInputType)
+    TextView tvInputType;
+
+
+    NoteMvpPresenter noteMvpPresenter;
 
     private NoteInputEditTextHandler noteInputEditTextHandler;
 
@@ -43,9 +51,12 @@ public class NoteActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        noteInputEditTextHandler = new NoteInputEditTextHandler(etContentField);
-        noteInputEditTextHandler.setInputTypeMode(false, drawingView);
+        noteMvpPresenter = new NotePresenter(this,
+                getSupportFragmentManager(),
+                drawingView,
+                etContentField);
 
+        noteMvpPresenter.onAttach(this);
         iniToolbar();
     }
 
@@ -68,31 +79,83 @@ public class NoteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.mnuDiscard:
-                drawingView.setErase(true);
+                noteMvpPresenter.onBackClicked(false);
                 break;
             case R.id.mnuPaperStyle:
-                showPaperStyle();
+                noteMvpPresenter.onPaperStyleClicked();
                 break;
+            case android.R.id.home:
+                noteMvpPresenter.onBackClicked(true);
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void showPaperStyle() {
-        final PaperStyleBottomSheet paperStyleBottomSheet =
-                PaperStyleBottomSheet.newInstance(noteInputEditTextHandler.getBackgroundResId(),
-                        noteInputEditTextHandler.getPaperStyleId());
-
-        paperStyleBottomSheet.setOnPaperStyleSelectedListener((paperStyleId, paperId) ->
-                noteInputEditTextHandler.setPaperStyle(paperStyleId, paperId));
-
-        paperStyleBottomSheet.show(getSupportFragmentManager(), paperStyleBottomSheet.getTag());
-    }
-
     @OnClick(R.id.imgTextStyle)
     public void onImgTextStyleClicked() {
-        final TextStyleBottomSheet textStyleBottomSheet = TextStyleBottomSheet.newInstance(TextStyle.REGULAR, R.color.blue);
-        textStyleBottomSheet.setOnTextStyleChangeListener((textStyle, colorId) ->
-                noteInputEditTextHandler.setTextStyle(textStyle, colorId));
-        textStyleBottomSheet.show(getSupportFragmentManager(), textStyleBottomSheet.getTag());
+        noteMvpPresenter.onTextStyleClicked();
+    }
+
+    @OnClick(R.id.imgInputTypeSwitcher)
+    public void onSwitchModeClicked() {
+        noteMvpPresenter.onInputTypeSwitcherClicked(imgInputTypeSwitcher);
+    }
+
+    @Override
+    public void setEraserVisibility(int visibility) {
+        imgEraser.setVisibility(visibility);
+    }
+
+    @Override
+    public void setTextStyleVisibility(int visibility) {
+        imgTextStyle.setVisibility(visibility);
+    }
+
+    @Override
+    public void setDrawingPenVisibility(int visibility) {
+        imgDrawingPen.setVisibility(visibility);
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
+    }
+
+    @Override
+    public void setInputTypeModeText(String text) {
+        tvInputType.setText(text);
+    }
+
+    @Override
+    public void setTextStyleColorBackground(@DrawableRes int drawable) {
+        imgTextStyle.setImageResource(drawable);
+    }
+
+    @Override
+    public void setDrawingPenColorBackground(@DrawableRes int drawable) {
+        imgDrawingPen.setImageResource(drawable);
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void onError(@StringRes int resId) {
+    }
+
+    @Override
+    protected void setUp() {
+
+    }
+
+    @Override
+    public void onError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

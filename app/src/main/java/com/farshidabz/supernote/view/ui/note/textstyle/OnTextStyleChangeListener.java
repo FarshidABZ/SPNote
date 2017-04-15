@@ -6,5 +6,5 @@ package com.farshidabz.supernote.view.ui.note.textstyle;
  */
 
 public interface OnTextStyleChangeListener {
-    void textStyleChanged(@TextStyle String textStyle, int colorId);
+    void textStyleChanged(@TextStyle int textStyle, int colorId, int formatColorId);
 }

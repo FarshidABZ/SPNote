@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
 import com.farshidabz.supernote.model.NoteModel;
+import com.farshidabz.supernote.util.BitmapConverter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ public class NotesTable extends Table<NoteModel> {
     private final String COLUMN_TITLE = "title";
     private final String COLUMN_CONTENT = "content";
     private final String COLUMN_TYPE = "type";
+    private final String COLUMN_IMAGE = "image";
     private final String COLUMN_BACKGROUND_DRAWABLE_ID = "background";
 
     @Override
@@ -38,6 +40,7 @@ public class NotesTable extends Table<NoteModel> {
         columns.put(COLUMN_TITLE, "varchar(60)");
         columns.put(COLUMN_CONTENT, "text");
         columns.put(COLUMN_TYPE, "varchar(10)");
+        columns.put(COLUMN_IMAGE, "blob");
         columns.put(COLUMN_BACKGROUND_DRAWABLE_ID, "int");
     }
 
@@ -51,6 +54,10 @@ public class NotesTable extends Table<NoteModel> {
         values.put(COLUMN_CONTENT, noteModel.getContent());
         values.put(COLUMN_BACKGROUND_DRAWABLE_ID, noteModel.getBackground());
 
+        if (noteModel.getImage() != null) {
+            values.put(COLUMN_IMAGE, BitmapConverter.getBytes(noteModel.getImage()));
+        }
+
         return db.update(getTableName(), values, COLUMN_ID + "=" + noteModel.getId(), null) > 0;
     }
 
@@ -59,13 +66,16 @@ public class NotesTable extends Table<NoteModel> {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(COLUMN_ID, noteModel.getId());
         values.put(COLUMN_FOLDER_ID, noteModel.getFolder_id());
         values.put(COLUMN_ADDRESS, noteModel.getAddress());
         values.put(COLUMN_TITLE, noteModel.getTitle());
         values.put(COLUMN_CONTENT, noteModel.getContent());
         values.put(COLUMN_TYPE, noteModel.getType());
         values.put(COLUMN_BACKGROUND_DRAWABLE_ID, noteModel.getBackground());
+
+        if (noteModel.getImage() != null) {
+            values.put(COLUMN_IMAGE, BitmapConverter.getBytes(noteModel.getImage()));
+        }
 
         return (db.insert(getTableName(), null, values) > 0);
     }
@@ -80,6 +90,7 @@ public class NotesTable extends Table<NoteModel> {
         noteModel.setTitle(c.getString(c.getColumnIndex(COLUMN_TITLE)));
         noteModel.setContent(c.getString(c.getColumnIndex(COLUMN_CONTENT)));
         noteModel.setContent(c.getString(c.getColumnIndex(COLUMN_TYPE)));
+        noteModel.setImage(BitmapConverter.getImage(c.getBlob(c.getColumnIndex(COLUMN_IMAGE))));
         noteModel.setBackground(c.getColumnIndex(COLUMN_BACKGROUND_DRAWABLE_ID));
 
         return noteModel;

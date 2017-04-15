@@ -38,7 +38,7 @@
             app:srcCompat="@drawable/ic_eraser" />
 
         <ImageView
-            android:id="@+id/imgPenPicker"
+            android:id="@+id/imgDrawingPen"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_centerVertical="true"
