@@ -31,6 +31,7 @@
     <color name="divider">#FFCED4DA</color>
     <color name="disableButton">#FFE8EFF4</color>
     <color name="background">#FFF2F5F8</color>
+    <color name="bottom_sheet_selector">#25ffffff</color>
     <color name="selector">#E5E6E8</color>
 
     <!--White-->

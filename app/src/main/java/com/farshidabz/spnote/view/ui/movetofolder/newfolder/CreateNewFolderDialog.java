@@ -1,4 +1,4 @@
-package com.farshidabz.spnote.view.ui.note.savenote;
+package com.farshidabz.spnote.view.ui.movetofolder.newfolder;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -19,16 +19,16 @@ import butterknife.OnClick;
 
 /**
  * Created by FarshidAbz.
- * Since 4/16/2017.
+ * Since 4/17/2017.
  */
 
-public class SaveNoteDialog extends Dialog {
+public class CreateNewFolderDialog extends Dialog {
 
-    @BindView(R.id.etNoteName)
-    EditText etNoteName;
+    @BindView(R.id.etFolderName)
+    EditText etFolderName;
     private OnDialogDismissListener onDialogDismissListener;
 
-    public SaveNoteDialog(@NonNull Context context) {
+    public CreateNewFolderDialog(@NonNull Context context) {
         super(context);
     }
 
@@ -40,7 +40,7 @@ public class SaveNoteDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog_save_note);
+        setContentView(R.layout.dialog_new_folder);
 
         ButterKnife.bind(this);
 
@@ -48,22 +48,26 @@ public class SaveNoteDialog extends Dialog {
         getWindow().setLayout(ScreenUtils.getScreenHeight(getContext()) / 2, RecyclerView.LayoutParams.WRAP_CONTENT);
     }
 
-    @OnClick(R.id.tvCancelSaveNote)
-    public void onCancelSaveNoteClicked() {
-        dismiss(false);
+    @OnClick(R.id.tvCreateFolder)
+    public void onCreateFolderClicked() {
+        onDismiss(true);
     }
 
-    @OnClick(R.id.tvSaveNote)
-    public void onSaveNoteClicked() {
-        dismiss(true);
+    @OnClick(R.id.tvCancelCreatingFolder)
+    public void onCancelClicked() {
+        onDismiss(false);
     }
 
-    private void dismiss(boolean saveNote) {
-        String noteName = etNoteName.getText().toString();
-        if (TextUtils.isEmpty(noteName))
-            noteName = getContext().getString(R.string.my_note);
-
-        onDialogDismissListener.onDismiss(saveNote, noteName);
+    private void onDismiss(boolean save) {
+        String folderName = etFolderName.getText().toString();
+        if (TextUtils.isEmpty(folderName)) {
+            folderName = getContext().getString(R.string.folder_name);
+        }
+        if (save) {
+            onDialogDismissListener.onDismiss(true, folderName);
+        } else {
+            onDialogDismissListener.onDismiss(false, "");
+        }
         dismiss();
     }
 }

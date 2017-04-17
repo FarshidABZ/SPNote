@@ -1,7 +1,5 @@
 package com.farshidabz.spnote.view.ui.base;
 
-import com.farshidabz.spnote.interactor.dbhandler.DbHandler;
-
 /**
  * Created by FarshidAbz.
  * Since 4/15/2017.
@@ -10,7 +8,6 @@ import com.farshidabz.spnote.interactor.dbhandler.DbHandler;
 public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
     private static final String TAG = "BasePresenter";
     private V mMvpView;
-    private DbHandler dbHandler;
 
     @Override
     public void onAttach(V mvpView) {
@@ -28,10 +25,6 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     public V getMvpView() {
         return mMvpView;
-    }
-
-    public DbHandler getDbHandler() {
-        return dbHandler;
     }
 
     public void checkViewAttached() {

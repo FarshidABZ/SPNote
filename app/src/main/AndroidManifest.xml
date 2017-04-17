@@ -8,9 +8,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
-            android:name="com.farshidabz.spnote.view.ui.mainpage.MainPageActivity"
+            android:name=".view.ui.mainpage.MainPageActivity"
             android:theme="@style/MainPageActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,10 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.farshidabz.spnote.view.ui.note.NoteActivity"
+            android:name=".view.ui.note.NoteActivity"
             android:theme="@style/NoteActivitiesTheme" />
+        <activity android:name=".view.ui.movetofolder.MoveToFolderActivity"></activity>
     </application>
 
 </manifest>

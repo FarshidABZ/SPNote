@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,10 +39,10 @@ public class NoteActivity extends BaseActivity implements NoteMvpView {
     DrawingView drawingView;
     @BindView(R.id.imgDraw)
     ImageView imgDraw;
-    @BindView(R.id.imgInputTypeSwitcher)
-    ImageView imgInputTypeSwitcher;
     @BindView(R.id.tvInputType)
     TextView tvInputType;
+    @BindView(R.id.llInputTypeSwitcher)
+    LinearLayout llInputTypeSwitcher;
 
     NoteMvpPresenter noteMvpPresenter;
 
@@ -111,9 +112,9 @@ public class NoteActivity extends BaseActivity implements NoteMvpView {
         noteMvpPresenter.onTextStyleClicked();
     }
 
-    @OnClick(R.id.imgInputTypeSwitcher)
+    @OnClick(R.id.llInputTypeSwitcher)
     public void onSwitchModeClicked() {
-        noteMvpPresenter.onInputTypeSwitcherClicked(imgInputTypeSwitcher);
+        noteMvpPresenter.onInputTypeSwitcherClicked(llInputTypeSwitcher);
     }
 
     @OnClick(R.id.imgEraser)

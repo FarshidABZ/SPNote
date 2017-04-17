@@ -6,6 +6,7 @@ import android.text.style.StyleSpan;
 import android.widget.EditText;
 
 import com.farshidabz.spnote.R;
+import com.farshidabz.spnote.util.ScreenUtils;
 import com.farshidabz.spnote.util.widgets.DrawingView;
 import com.farshidabz.spnote.view.ui.note.textstyle.TextStyle;
 
@@ -36,7 +37,29 @@ public class NoteInputEditTextHandler {
             getStyleFromBackground();
         }
 
+        setEditLayoutParams();
         inputEditText.setBackgroundResource(paperId);
+    }
+
+    private void setEditLayoutParams() {
+        switch (paperId) {
+            case R.drawable.line_edit_text:
+                setPadding(36);
+                break;
+            case R.drawable.simple_edit_text_paper:
+                setPadding(16);
+                break;
+            case R.drawable.grid_edit_text:
+                setPadding(16);
+                break;
+        }
+    }
+
+    private void setPadding(int left) {
+        inputEditText.setPadding(ScreenUtils.dpToPx(inputEditText.getContext(), left),
+                ScreenUtils.dpToPx(inputEditText.getContext(), 16),
+                ScreenUtils.dpToPx(inputEditText.getContext(), 16),
+                ScreenUtils.dpToPx(inputEditText.getContext(), 16));
     }
 
     private void getStyleFromBackground() {

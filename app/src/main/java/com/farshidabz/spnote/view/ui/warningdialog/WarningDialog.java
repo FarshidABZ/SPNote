@@ -1,4 +1,4 @@
-package com.farshidabz.spnote.view.ui.note.discard;
+package com.farshidabz.spnote.view.ui.warningdialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -7,26 +7,44 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.farshidabz.spnote.R;
 import com.farshidabz.spnote.util.ScreenUtils;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * Created by FarshidAbz.
- * Since 4/16/2017.
+ * Since 4/17/2017.
  */
 
-public class DiscardDialog extends Dialog {
-    private OnDiscardDismissListener onDismissListener;
+public class WarningDialog extends Dialog {
+    private OnWarningDialogDismissListener onDismissListener;
 
-    public DiscardDialog(@NonNull Context context) {
+    @BindView(R.id.tvWarningDialogMessage)
+    TextView tvWarningDialogMessage;
+    @BindView(R.id.tvWarningDialogTitle)
+    TextView tvWarningDialogTitle;
+    @BindView(R.id.tvWarningDialogOK)
+    TextView tvWarningDialogOK;
+
+    String title;
+    String message;
+
+    public WarningDialog(@NonNull Context context) {
         super(context);
     }
 
-    public void setOnDiscardDismissListener(OnDiscardDismissListener onDismissListener) {
+    public WarningDialog(@NonNull Context context, String title, String message) {
+        super(context);
+        this.title = title;
+        this.message = message;
+    }
+
+    public void setOnWarningDialogDismissListener(OnWarningDialogDismissListener onDismissListener) {
         this.onDismissListener = onDismissListener;
     }
 
@@ -34,7 +52,7 @@ public class DiscardDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog_discard_changes);
+        setContentView(R.layout.dialog_warning);
 
         ButterKnife.bind(this);
 
@@ -42,20 +60,24 @@ public class DiscardDialog extends Dialog {
         lp.copyFrom(getWindow().getAttributes());
         getWindow().setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.white_background));
         getWindow().setLayout(ScreenUtils.getScreenHeight(getContext()) / 2, RecyclerView.LayoutParams.WRAP_CONTENT);
+
+        tvWarningDialogMessage.setText(message);
+        tvWarningDialogTitle.setText(title);
+        tvWarningDialogOK.setText(title);
     }
 
-    @OnClick(R.id.tvDiscardChanges)
+    @OnClick(R.id.tvWarningDialogOK)
     public void onDiscardChangesClicked() {
         dismiss(true);
     }
 
-    @OnClick(R.id.tvCancelDiscardChanges)
+    @OnClick(R.id.tvWarningDialogCancel)
     public void onCancelDiscardChangesClicked() {
         dismiss(false);
     }
 
-    private void dismiss(boolean discard) {
-        onDismissListener.onDismiss(discard);
+    private void dismiss(boolean state) {
+        onDismissListener.onDismissDialog(state);
         dismiss();
     }
 }

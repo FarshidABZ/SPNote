@@ -18,9 +18,14 @@ import ir.coderz.ghostadapter.Binder;
 @BindItem(layout = R.layout.content_notes, holder = NotesHolder.class)
 public class NotesItem {
     NoteModel noteModel;
+    private OnItemLongClickListener onItemLongClickListener;
 
     public NotesItem(NoteModel noteModel) {
         this.noteModel = noteModel;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
     }
 
     @Binder
@@ -32,6 +37,11 @@ public class NotesItem {
             bundle.putInt("noteId", noteModel.getId());
             ActivityFactory.startActivity(notesHolder.itemView.getContext(),
                     NoteActivity.class.getSimpleName(), bundle);
+        });
+
+        notesHolder.itemView.setOnLongClickListener(v -> {
+            onItemLongClickListener.onItemLongClicked(notesHolder.getLayoutPosition(), noteModel);
+            return false;
         });
     }
 }

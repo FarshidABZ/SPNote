@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
-    android:background="@drawable/more_action_bottom_sheet_selector"
+    android:background="@drawable/popup_item_selector"
     android:orientation="horizontal"
     android:padding="8dp">
 

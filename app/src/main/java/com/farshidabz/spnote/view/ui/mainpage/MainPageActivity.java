@@ -1,7 +1,7 @@
 package com.farshidabz.spnote.view.ui.mainpage;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,13 +12,10 @@ import com.farshidabz.spnote.flowcontroller.ActivityFactory;
 import com.farshidabz.spnote.model.FolderModel;
 import com.farshidabz.spnote.model.NoteModel;
 import com.farshidabz.spnote.model.UserData;
-import com.farshidabz.spnote.presenter.impls.RecoveryAndBackupPresenterImpl;
-import com.farshidabz.spnote.presenter.presenter.RecoveryAndBackupPresenter;
 import com.farshidabz.spnote.view.ui.mainpage.viewtypes.EmptyStateItem;
 import com.farshidabz.spnote.view.ui.mainpage.viewtypes.FolderItem;
 import com.farshidabz.spnote.view.ui.mainpage.viewtypes.NotesItem;
 import com.farshidabz.spnote.view.ui.note.NoteActivity;
-import com.farshidabz.spnote.view.views.mainpage.MainPageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +30,11 @@ import ir.coderz.ghostadapter.GhostAdapter;
  * Since 4/12/2017.
  */
 
-public class MainPageActivity extends AppCompatActivity implements MainPageView {
+public class MainPageActivity extends AppCompatActivity implements MainPageMvpView {
     @BindView(R.id.rvMainPage)
     RecyclerView rvMainPage;
-    @BindView(R.id.fabAddNewNote)
-    FloatingActionButton fabAddNewNote;
+
+    MainPageMvpPresenter mainPageMvpPresenter;
 
     GhostAdapter ghostAdapter;
     List<Object> items;
@@ -49,19 +46,16 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView 
 
         ButterKnife.bind(this);
 
-        initRvMainPage();
+        mainPageMvpPresenter = new MainPagePresenter(this, getSupportFragmentManager());
+        mainPageMvpPresenter.onAttach(this);
 
+        initRvMainPage();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getUserNotes();
-    }
-
-    private void getUserNotes() {
-        RecoveryAndBackupPresenter recoveryAndBackupPresenter = new RecoveryAndBackupPresenterImpl(this, this);
-        recoveryAndBackupPresenter.getUserData();
+        mainPageMvpPresenter.getUserData();
     }
 
     private void initRvMainPage() {
@@ -88,15 +82,52 @@ public class MainPageActivity extends AppCompatActivity implements MainPageView 
         }
 
         for (NoteModel noteModel : userData.getNoteModel()) {
-            NotesItem notesItem = new NotesItem(noteModel);
-            items.add(notesItem);
+            NotesItem noteItem = new NotesItem(noteModel);
+            noteItem.setOnItemLongClickListener((position, object) ->
+                    mainPageMvpPresenter.onNoteLongClicked(position, (NoteModel) object));
+            items.add(noteItem);
         }
         ghostAdapter.addItems(items);
     }
 
     @Override
+    public void noteNameChanged(int position, NoteModel noteModel) {
+        mainPageMvpPresenter.getUserData();
+    }
+
+    @Override
+    public void noteRemoved(NoteModel noteModel) {
+        mainPageMvpPresenter.getUserData();
+    }
+
+    @Override
     public void showEmptyState() {
+        items.clear();
+        ghostAdapter.removeAll();
         rvMainPage.setLayoutManager(new LinearLayoutManager(this));
         ghostAdapter.addItem(new EmptyStateItem());
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void onError(@StringRes int resId) {
+    }
+
+    @Override
+    public void onError(String message) {
     }
 }

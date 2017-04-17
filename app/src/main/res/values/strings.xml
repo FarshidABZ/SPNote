@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">SP Note</string>
     <string name="notebook">NoteBook</string>
-    <string name="folder_name">Folder Name</string>
-    <string name="note_name">Note Name</string>
+    <string name="folder_name">Folder name</string>
+    <string name="note_name">Note name</string>
     <string name="cancel">Cancel</string>
+    <string name="cancel_caps">CANCEL</string>
     <string name="ok">OK</string>
-    <string name="choose_background_image">Choose Background Image</string>
+    <string name="choose_background_image">Choose background image</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
     <string name="info">Info</string>
@@ -20,9 +21,12 @@
     <string name="tap_plus_to_new_note">Tap on “+” to add new noteModel.</string>
     <string name="paper_style">Paper Style</string>
     <string name="save">Save</string>
+    <string name="save_caps">SAVE</string>
     <string name="discard">Discard</string>
 
     <string name="folder_pages_count">%1$d pages</string>
+    <string name="move_note_to">move %1$s to</string>
+
     <string name="simple">Simple</string>
     <string name="line">Line</string>
     <string name="grid">Grid</string>
@@ -31,12 +35,17 @@
     <string name="remove">Remove</string>
 
     <string name="done">DONE</string>
-    <string name="some_error">Some Error Occurred!</string>
+    <string name="some_error">Some error occurred!</string>
     <string name="select_text">First select text</string>
     <string name="discard_message">Your changes are not saved are you sure you want to discard the changes?</string>
-    <string name="enter_new_name">Enter the New note name.</string>
-    <string name="my_note">MyNote</string>
+    <string name="remove_note">Are you sure you want to delete this note?</string>
+    <string name="enter_new_name">Enter the note name</string>
+    <string name="my_note">mynote</string>
     <string name="confirm">Confirm</string>
     <string name="do_you_want_to_save_changes">Do you want to save changes?</string>
+    <string name="this_folder_is_empty">This folder is empty</string>
+    <string name="enter_folder_name">Enter folder name</string>
+    <string name="my_folder">myfolder</string>
+    <string name="create_caps">CREATE</string>
 
 </resources>

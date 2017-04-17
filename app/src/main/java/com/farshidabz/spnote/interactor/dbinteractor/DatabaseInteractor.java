@@ -1,4 +1,4 @@
-package com.farshidabz.spnote.interactor.recoveryandbackup;
+package com.farshidabz.spnote.interactor.dbinteractor;
 
 import android.content.Context;
 
@@ -8,16 +8,17 @@ import com.farshidabz.spnote.model.NoteModel;
 import com.farshidabz.spnote.model.UserData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by FarshidAbz.
  * Since 4/12/2017.
  */
 
-public class RecoveryAndBackupPresenterInteractor {
+public class DatabaseInteractor {
     DbHandler dbHandler;
 
-    public RecoveryAndBackupPresenterInteractor(Context context) {
+    public DatabaseInteractor(Context context) {
         dbHandler = new DbHandler(context);
     }
 
@@ -41,5 +42,29 @@ public class RecoveryAndBackupPresenterInteractor {
         }
 
         return folderModels;
+    }
+
+    public boolean updateNote(NoteModel noteModel) {
+        return dbHandler.getNotesTable().update(noteModel);
+    }
+
+    public boolean removeNote(NoteModel noteModel) {
+        return dbHandler.getNotesTable().delete(noteModel.getId());
+    }
+
+    public List<FolderModel> getFolders() {
+        return dbHandler.getFolderTable().getAll();
+    }
+
+    public boolean createNewFolder(FolderModel folderModel) {
+        return dbHandler.getFolderTable().create(folderModel);
+    }
+
+    public NoteModel getNote(int noteId) {
+        return dbHandler.getNotesTable().get(noteId);
+    }
+
+    public boolean createNote(NoteModel noteModel) {
+        return dbHandler.getNotesTable().create(noteModel);
     }
 }

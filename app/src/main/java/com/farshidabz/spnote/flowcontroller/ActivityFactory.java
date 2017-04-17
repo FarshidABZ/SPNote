@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.farshidabz.spnote.view.ui.mainpage.MainPageActivity;
+import com.farshidabz.spnote.view.ui.movetofolder.MoveToFolderActivity;
 import com.farshidabz.spnote.view.ui.note.NoteActivity;
 
 /**
@@ -27,6 +28,8 @@ public class ActivityFactory {
                 return new Intent(context, MainPageActivity.class);
             case "NoteActivity":
                 return new Intent(context, NoteActivity.class);
+            case "MoveToFolderActivity":
+                return new Intent(context, MoveToFolderActivity.class);
             default:
                 return new Intent(context, MainPageActivity.class);
         }

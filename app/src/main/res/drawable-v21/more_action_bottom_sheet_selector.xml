@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="#E5E6E8">
+    android:color="@color/bottom_sheet_selector">
     <item>
         <selector>
             <item android:state_selected="true">
-                <color android:color="#E5E6E8" />
+                <color android:color="@color/bottom_sheet_selector" />
             </item>
 
             <item android:state_activated="true">
-                <color android:color="#E5E6E8" />
+                <color android:color="@color/bottom_sheet_selector" />
             </item>
 
             <item>
-                <color android:color="#FFFFFF" />
+                <color android:color="@color/midnight" />
             </item>
         </selector>
     </item>

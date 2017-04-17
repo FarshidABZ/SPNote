@@ -5,21 +5,19 @@ import android.support.v4.app.FragmentManager;
 import android.text.Spannable;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.farshidabz.spnote.R;
-import com.farshidabz.spnote.interactor.dbhandler.DbHandler;
+import com.farshidabz.spnote.interactor.dbinteractor.DatabaseInteractor;
 import com.farshidabz.spnote.model.NoteModel;
 import com.farshidabz.spnote.model.PopupModel;
 import com.farshidabz.spnote.util.widgets.DrawingView;
 import com.farshidabz.spnote.util.widgets.popupwindow.CustomPopupWindow;
 import com.farshidabz.spnote.view.ui.base.BasePresenter;
-import com.farshidabz.spnote.view.ui.note.discard.DiscardDialog;
 import com.farshidabz.spnote.view.ui.note.drawstyle.DrawingStyleBottomSheet;
 import com.farshidabz.spnote.view.ui.note.paperstyle.PaperStyleBottomSheet;
 import com.farshidabz.spnote.view.ui.note.savenote.SaveNoteDialog;
 import com.farshidabz.spnote.view.ui.note.textstyle.TextStyleBottomSheet;
-import com.farshidabz.spnote.view.ui.note.updatenote.UpdateNoteDialog;
+import com.farshidabz.spnote.view.ui.warningdialog.WarningDialog;
 
 import java.util.ArrayList;
 
@@ -30,15 +28,14 @@ import java.util.ArrayList;
 
 public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
         implements NoteMvpPresenter<V> {
-
-    DbHandler dbHandler;
-
     private Context context;
     private DrawingView drawingView;
     private NoteInputEditTextHandler noteInputEditTextHandler;
     private FragmentManager fragmentManager;
     private EditText writingInputEditText;
     private NoteModel noteModel;
+
+    DatabaseInteractor interactor;
 
     public NotePresenter(Context context,
                          FragmentManager supportFragmentManager,
@@ -50,7 +47,7 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
         this.writingInputEditText = writingInputEditText;
 
         noteInputEditTextHandler = new NoteInputEditTextHandler(writingInputEditText);
-        dbHandler = new DbHandler(context);
+        interactor = new DatabaseInteractor(context);
     }
 
     /**
@@ -58,7 +55,7 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
      */
     @Override
     public void getNote(int noteId) {
-        noteModel = dbHandler.getNotesTable().get(noteId);
+        noteModel = interactor.getNote(noteId);
         if (noteModel == null)
             return;
 
@@ -103,7 +100,7 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
      * DONE
      */
     @Override
-    public void onInputTypeSwitcherClicked(ImageView imgInputTypeSwitcher) {
+    public void onInputTypeSwitcherClicked(View imgInputTypeSwitcher) {
         ArrayList<PopupModel> popupModels = new ArrayList<>();
         popupModels.add(new PopupModel(context.getString(R.string.type_mode)));
         popupModels.add(new PopupModel(context.getString(R.string.drawing)));
@@ -143,40 +140,6 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
                 showUpdateNoteDialog();
             }
         }
-    }
-
-    private void showUpdateNoteDialog() {
-        UpdateNoteDialog updateNoteDialog = new UpdateNoteDialog(context);
-        updateNoteDialog.setOnUpdateNoteDismissListener(saveChanges -> {
-            if (saveChanges) {
-                updateNote();
-            } else {
-                showDiscardDialog();
-            }
-        });
-        updateNoteDialog.show();
-    }
-
-    private void showSaveNewNoteDialog() {
-        SaveNoteDialog saveNoteDialog = new SaveNoteDialog(context);
-        saveNoteDialog.setOnSaveNoteDismissListener((save, noteName) -> {
-            if (save) {
-                createNewNote(noteName);
-            } else {
-                showDiscardDialog();
-            }
-        });
-        saveNoteDialog.show();
-    }
-
-    private void showDiscardDialog() {
-        DiscardDialog discardDialog = new DiscardDialog(context);
-        discardDialog.setOnDiscardDismissListener(discard -> {
-            if (discard) {
-                getMvpView().finishActivity();
-            }
-        });
-        discardDialog.show();
     }
 
     /**
@@ -232,7 +195,7 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
         noteModel.setImage(drawingView.getCanvasBitmap());
         noteModel.setFolder_id(-1);
 
-        if (dbHandler.getNotesTable().create(noteModel)) {
+        if (interactor.createNote(noteModel)) {
             getMvpView().finishActivity();
         }
     }
@@ -245,8 +208,47 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
         noteModel.setBackground(context.getResources().
                 getResourceEntryName(noteInputEditTextHandler.getBackgroundResId()));
 
-        if (dbHandler.getNotesTable().update(noteModel)) {
+        if (interactor.updateNote(noteModel)) {
             getMvpView().finishActivity();
         }
+    }
+
+    private void showUpdateNoteDialog() {
+        WarningDialog warningDialog = new WarningDialog(context,
+                context.getString(R.string.confirm),
+                context.getString(R.string.do_you_want_to_save_changes));
+        warningDialog.setOnWarningDialogDismissListener(saveChanges -> {
+            if (saveChanges) {
+                updateNote();
+            } else {
+                showDiscardDialog();
+            }
+        });
+        warningDialog.show();
+    }
+
+    private void showSaveNewNoteDialog() {
+        SaveNoteDialog saveNoteDialog = new SaveNoteDialog(context);
+        saveNoteDialog.setOnDialogDismissListener((save, noteName) -> {
+            if (save) {
+                createNewNote(noteName);
+            } else {
+                showDiscardDialog();
+            }
+        });
+        saveNoteDialog.show();
+    }
+
+    private void showDiscardDialog() {
+        WarningDialog warningDialog = new WarningDialog(context,
+                context.getString(R.string.discard),
+                context.getString(R.string.discard_message));
+
+        warningDialog.setOnWarningDialogDismissListener(state -> {
+            if (state) {
+                getMvpView().finishActivity();
+            }
+        });
+        warningDialog.show();
     }
 }

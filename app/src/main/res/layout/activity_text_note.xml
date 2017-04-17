@@ -24,8 +24,10 @@
             android:layout_height="match_parent"
             android:background="@drawable/line_edit_text"
             android:gravity="top"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
+            android:lineSpacingExtra="3dp"
+            android:paddingLeft="36dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
             android:textSize="14sp" />
 
         <View

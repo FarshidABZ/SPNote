@@ -52,6 +52,7 @@ public class NotesTable extends Table<NoteModel> {
         ContentValues values = new ContentValues();
         String spannableAsHtml = Html.toHtml(noteModel.getContent());
 
+        values.put(COLUMN_TITLE, noteModel.getTitle());
         values.put(COLUMN_ADDRESS, noteModel.getAddress());
         values.put(COLUMN_CONTENT, spannableAsHtml);
         values.put(COLUMN_BACKGROUND_DRAWABLE_ID, noteModel.getBackground());

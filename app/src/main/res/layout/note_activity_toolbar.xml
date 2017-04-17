@@ -63,6 +63,7 @@
             app:srcCompat="@drawable/ic_gesture_black" />
 
         <LinearLayout
+            android:id="@+id/llInputTypeSwitcher"
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/notebookToolbarColor"

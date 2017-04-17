@@ -1,6 +1,6 @@
 package com.farshidabz.spnote.view.ui.note;
 
-import android.widget.ImageView;
+import android.view.View;
 
 import com.farshidabz.spnote.view.ui.base.MvpPresenter;
 
@@ -14,7 +14,7 @@ public interface NoteMvpPresenter<V extends NoteMvpView> extends MvpPresenter<V>
 
     void onTextStyleClicked();
 
-    void onInputTypeSwitcherClicked(ImageView imgInputTypeSwitcher);
+    void onInputTypeSwitcherClicked(View imgInputTypeSwitcher);
 
     void onBackClicked(boolean saveChanges, int noteId);
 
