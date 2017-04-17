@@ -33,7 +33,7 @@
             android:layout_height="6dp"
             android:background="@drawable/bottom_shadow" />
 
-        <com.farshidabz.supernote.util.widgets.DrawingView
+        <com.farshidabz.spnote.util.widgets.DrawingView
             android:id="@+id/drawingView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

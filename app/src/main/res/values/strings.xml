@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SuperNote</string>
+    <string name="app_name">SP Note</string>
     <string name="notebook">NoteBook</string>
     <string name="folder_name">Folder Name</string>
     <string name="note_name">Note Name</string>
@@ -33,5 +33,10 @@
     <string name="done">DONE</string>
     <string name="some_error">Some Error Occurred!</string>
     <string name="select_text">First select text</string>
+    <string name="discard_message">Your changes are not saved are you sure you want to discard the changes?</string>
+    <string name="enter_new_name">Enter the New note name.</string>
+    <string name="my_note">MyNote</string>
+    <string name="confirm">Confirm</string>
+    <string name="do_you_want_to_save_changes">Do you want to save changes?</string>
 
 </resources>

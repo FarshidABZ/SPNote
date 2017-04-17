@@ -24,7 +24,7 @@
         android:layout_margin="24dp"
         android:max="20"
         android:padding="4dp"
-        android:progressDrawable="@drawable/pen_thickness_red"
+        android:progressDrawable="@drawable/ic_red_slider"
         android:thumb="@drawable/seekbar_thumb" />
 
     <include layout="@layout/content_color_style" />

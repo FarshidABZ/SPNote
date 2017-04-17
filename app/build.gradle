@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "com.farshidabz.supernote"
+        applicationId "com.farshidabz.spnote"
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
@@ -14,6 +14,12 @@ android {
         jackOptions.enabled = true
     }
     buildTypes {
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                output.outputFile = file("$project.rootDir/SPNote.apk")
+            }
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

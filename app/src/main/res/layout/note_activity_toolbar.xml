@@ -22,7 +22,21 @@
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:visibility="visible"
             app:srcCompat="@drawable/ic_format_color_text_black" />
+
+        <ImageView
+            android:id="@+id/imgDraw"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/draw" />
 
         <ImageView
             android:id="@+id/imgEraser"
@@ -34,7 +48,7 @@
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:srcCompat="@drawable/ic_eraser" />
 
         <ImageView
@@ -45,7 +59,7 @@
             android:layout_toLeftOf="@+id/imgEraser"
             android:layout_toStartOf="@+id/imgEraser"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:srcCompat="@drawable/ic_gesture_black" />
 
         <LinearLayout
