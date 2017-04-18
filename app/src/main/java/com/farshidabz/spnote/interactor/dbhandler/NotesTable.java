@@ -37,7 +37,7 @@ public class NotesTable extends Table<NoteModel> {
     @Override
     protected void setColumns(HashMap<String, String> columns) {
         columns.put(COLUMN_ID, "INTEGER PRIMARY KEY AUTOINCREMENT");
-        columns.put(COLUMN_FOLDER_ID, "int");
+        columns.put(COLUMN_FOLDER_ID, "varchar(5)");
         columns.put(COLUMN_ADDRESS, "varchar(250)");
         columns.put(COLUMN_TITLE, "varchar(60)");
         columns.put(COLUMN_CONTENT, "text");
@@ -55,6 +55,7 @@ public class NotesTable extends Table<NoteModel> {
         values.put(COLUMN_TITLE, noteModel.getTitle());
         values.put(COLUMN_ADDRESS, noteModel.getAddress());
         values.put(COLUMN_CONTENT, spannableAsHtml);
+        values.put(COLUMN_FOLDER_ID, String.valueOf(noteModel.getFolder_id()));
         values.put(COLUMN_BACKGROUND_DRAWABLE_ID, noteModel.getBackground());
 
         if (noteModel.getImage() != null) {
@@ -70,7 +71,7 @@ public class NotesTable extends Table<NoteModel> {
         ContentValues values = new ContentValues();
         String spannableAsHtml = Html.toHtml(noteModel.getContent());
 
-        values.put(COLUMN_FOLDER_ID, noteModel.getFolder_id());
+        values.put(COLUMN_FOLDER_ID, String.valueOf(noteModel.getFolder_id()));
         values.put(COLUMN_ADDRESS, noteModel.getAddress());
         values.put(COLUMN_TITLE, noteModel.getTitle());
         values.put(COLUMN_CONTENT, spannableAsHtml);
@@ -89,7 +90,7 @@ public class NotesTable extends Table<NoteModel> {
         NoteModel noteModel = new NoteModel();
 
         noteModel.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
-        noteModel.setFolder_id(c.getColumnIndex(COLUMN_FOLDER_ID));
+        noteModel.setFolder_id(Integer.parseInt(c.getString(c.getColumnIndex(COLUMN_FOLDER_ID))));
         noteModel.setAddress(c.getString(c.getColumnIndex(COLUMN_ADDRESS)));
         noteModel.setTitle(c.getString(c.getColumnIndex(COLUMN_TITLE)));
         noteModel.setType(c.getString(c.getColumnIndex(COLUMN_TYPE)));

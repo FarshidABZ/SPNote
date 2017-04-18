@@ -14,8 +14,11 @@ import com.farshidabz.spnote.view.ui.base.BasePresenter;
 import com.farshidabz.spnote.view.ui.mainpage.moreaction.ActionType;
 import com.farshidabz.spnote.view.ui.mainpage.moreaction.MoreActionBottomSheet;
 import com.farshidabz.spnote.view.ui.movetofolder.MoveToFolderActivity;
+import com.farshidabz.spnote.view.ui.note.NoteActivity;
 import com.farshidabz.spnote.view.ui.note.savenote.SaveNoteDialog;
 import com.farshidabz.spnote.view.ui.warningdialog.WarningDialog;
+
+import java.util.List;
 
 /**
  * Created by FarshidAbz.
@@ -27,6 +30,7 @@ public class MainPagePresenter<V extends MainPageMvpView> extends BasePresenter<
     Context context;
     private FragmentManager fragmentManager;
     private DatabaseInteractor interactor;
+    private int currentFolderId = -1;
 
     public MainPagePresenter(Context context, FragmentManager fragmentManager) {
         this.context = context;
@@ -102,16 +106,45 @@ public class MainPagePresenter<V extends MainPageMvpView> extends BasePresenter<
 
     @Override
     public void onFolderLongClicked(FolderModel folderModel) {
-
+        // TODO: 4/19/2017 fixme
     }
 
     @Override
     public void onNoteClicked(NoteModel noteModel) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("noteId", noteModel.getId());
+        bundle.putInt("folderId", noteModel.getFolder_id());
 
+        ActivityFactory.startActivity(context, NoteActivity.class.getSimpleName(), bundle);
     }
 
     @Override
     public void onFolderClicked(FolderModel folderModel) {
+        currentFolderId = folderModel.getId();
+        List<NoteModel> noteModels = interactor.getFolderContent(folderModel);
+        if (noteModels == null || noteModels.size() == 0) {
+            getMvpView().showEmptyState();
+        } else {
+            UserData userData = new UserData();
+            userData.setNoteModel(noteModels);
+            getMvpView().showUserData(userData);
+        }
+    }
 
+    @Override
+    public void onBackPressed() {
+        if (currentFolderId > 0) {
+            getUserData();
+            currentFolderId = -1;
+        } else {
+            getMvpView().finishActivity();
+        }
+    }
+
+    @Override
+    public void onNewNoteClicked() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("folderId", currentFolderId);
+        ActivityFactory.startActivity(context, NoteActivity.class.getSimpleName(), bundle);
     }
 }

@@ -48,6 +48,7 @@ public class NoteActivity extends BaseActivity implements NoteMvpView {
 
     private NoteInputEditTextHandler noteInputEditTextHandler;
     private int noteId;
+    private int folderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,9 @@ public class NoteActivity extends BaseActivity implements NoteMvpView {
 
     private void getData() {
         noteId = getIntent().getIntExtra("noteId", -1);
-        noteMvpPresenter.getNote(noteId);
+        folderId = getIntent().getIntExtra("folderId", -1);
+
+        noteMvpPresenter.getNote(noteId, folderId);
     }
 
     private void iniToolbar() {
@@ -132,7 +135,7 @@ public class NoteActivity extends BaseActivity implements NoteMvpView {
     }
 
     @OnClick(R.id.imgDrawingPen)
-    public void onImgDrawingPenClicked(){
+    public void onImgDrawingPenClicked() {
         noteMvpPresenter.onDrawingStyleClicked();
     }
 

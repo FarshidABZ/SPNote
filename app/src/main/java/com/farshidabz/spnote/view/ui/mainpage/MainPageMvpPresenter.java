@@ -16,4 +16,6 @@ public interface MainPageMvpPresenter<V extends MainPageMvpView> extends MvpPres
     void onFolderLongClicked(FolderModel folderModel);
     void onNoteClicked(NoteModel noteModel);
     void onFolderClicked(FolderModel folderModel);
+    void onBackPressed();
+    void onNewNoteClicked();
 }

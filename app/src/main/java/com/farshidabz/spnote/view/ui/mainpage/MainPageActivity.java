@@ -8,14 +8,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.farshidabz.spnote.R;
-import com.farshidabz.spnote.flowcontroller.ActivityFactory;
 import com.farshidabz.spnote.model.FolderModel;
 import com.farshidabz.spnote.model.NoteModel;
 import com.farshidabz.spnote.model.UserData;
 import com.farshidabz.spnote.view.ui.mainpage.viewtypes.EmptyStateItem;
 import com.farshidabz.spnote.view.ui.mainpage.viewtypes.FolderItem;
 import com.farshidabz.spnote.view.ui.mainpage.viewtypes.NotesItem;
-import com.farshidabz.spnote.view.ui.note.NoteActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +65,12 @@ public class MainPageActivity extends AppCompatActivity implements MainPageMvpVi
 
     @OnClick(R.id.fabAddNewNote)
     public void onFabAddNewNoteClicked() {
-        ActivityFactory.startActivity(this, NoteActivity.class.getSimpleName());
+        mainPageMvpPresenter.onNewNoteClicked();
+    }
+
+    @Override
+    public void onBackPressed() {
+        mainPageMvpPresenter.onBackPressed();
     }
 
     @Override
@@ -76,18 +79,37 @@ public class MainPageActivity extends AppCompatActivity implements MainPageMvpVi
         ghostAdapter.removeAll();
         items.clear();
 
-        for (FolderModel folderModel : userData.getFolderModel()) {
+        showFolders(userData.getFolderModel());
+        showUserNotes(userData.getNoteModel());
+
+        ghostAdapter.addItems(items);
+    }
+
+    private void showFolders(List<FolderModel> folderModels) {
+        if (folderModels == null)
+            return;
+
+        for (FolderModel folderModel : folderModels) {
             FolderItem folderItem = new FolderItem(folderModel);
+            folderItem.setOnItemClickListener((position, object) ->
+                    mainPageMvpPresenter.onFolderClicked((FolderModel) object));
             items.add(folderItem);
         }
+    }
 
-        for (NoteModel noteModel : userData.getNoteModel()) {
+    private void showUserNotes(List<NoteModel> noteModels) {
+        if (noteModels == null)
+            return;
+
+        for (NoteModel noteModel : noteModels) {
             NotesItem noteItem = new NotesItem(noteModel);
             noteItem.setOnItemLongClickListener((position, object) ->
                     mainPageMvpPresenter.onNoteLongClicked(position, (NoteModel) object));
+            noteItem.setOnItemClickListener((position, object) ->
+                    mainPageMvpPresenter.onNoteClicked((NoteModel) object));
+
             items.add(noteItem);
         }
-        ghostAdapter.addItems(items);
     }
 
     @Override
@@ -115,12 +137,10 @@ public class MainPageActivity extends AppCompatActivity implements MainPageMvpVi
 
     @Override
     public void showLoading() {
-
     }
 
     @Override
     public void hideLoading() {
-
     }
 
     @Override

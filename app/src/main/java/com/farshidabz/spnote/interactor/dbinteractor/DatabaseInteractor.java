@@ -37,7 +37,7 @@ public class DatabaseInteractor {
         ArrayList<FolderModel> folderModels = dbHandler.getFolderTable().getAll();
 
         for (FolderModel folderModel : folderModels) {
-            ArrayList<NoteModel> noteModels = dbHandler.getNotesTable().getNotesOfFolder((int) folderModel.getId());
+            ArrayList<NoteModel> noteModels = dbHandler.getNotesTable().getNotesOfFolder(folderModel.getId());
             folderModel.setNoteModelList(noteModels);
         }
 
@@ -64,7 +64,19 @@ public class DatabaseInteractor {
         return dbHandler.getNotesTable().get(noteId);
     }
 
+    public List<NoteModel> getAllNotes() {
+        return dbHandler.getNotesTable().getAll();
+    }
+
     public boolean createNote(NoteModel noteModel) {
         return dbHandler.getNotesTable().create(noteModel);
+    }
+
+    public List<NoteModel> getFolderContent(FolderModel folderModel) {
+        return dbHandler.getNotesTable().getNotesOfFolder(folderModel.getId());
+    }
+
+    public boolean removeFolder(FolderModel folderModel) {
+        return false;
     }
 }

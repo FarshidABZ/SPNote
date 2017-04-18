@@ -3,6 +3,7 @@ package com.farshidabz.spnote.view.ui.note;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.text.Spannable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -34,6 +35,7 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
     private FragmentManager fragmentManager;
     private EditText writingInputEditText;
     private NoteModel noteModel;
+    private int folderId;
 
     DatabaseInteractor interactor;
 
@@ -50,11 +52,9 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
         interactor = new DatabaseInteractor(context);
     }
 
-    /**
-     * DONE
-     */
     @Override
-    public void getNote(int noteId) {
+    public void getNote(int noteId, int folderId) {
+        this.folderId = folderId;
         noteModel = interactor.getNote(noteId);
         if (noteModel == null)
             return;
@@ -71,9 +71,6 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
         getMvpView().onNoteReceived(noteModel);
     }
 
-    /**
-     * DONE
-     */
     @Override
     public void onTextStyleClicked() {
         int startPos = writingInputEditText.getSelectionStart();
@@ -96,9 +93,6 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
         textStyleBottomSheet.show(fragmentManager, textStyleBottomSheet.getTag());
     }
 
-    /**
-     * DONE
-     */
     @Override
     public void onInputTypeSwitcherClicked(View imgInputTypeSwitcher) {
         ArrayList<PopupModel> popupModels = new ArrayList<>();
@@ -126,11 +120,13 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
         customPopupWindow.show();
     }
 
-    /**
-     * SHOW SAVE DIALOG
-     */
     @Override
     public void onBackClicked(boolean saveChanges, int noteId) {
+        if (!isContentChanged() && !isDrawingChanged()) {
+            getMvpView().finishActivity();
+            return;
+        }
+
         if (!saveChanges) {
             showDiscardDialog();
         } else {
@@ -142,17 +138,34 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
         }
     }
 
-    /**
-     * DONE
-     */
+    private boolean isContentChanged() {
+        if (noteModel == null && TextUtils.isEmpty(writingInputEditText.getText().toString())) {
+            return false;
+        }
+        if (noteModel != null && !TextUtils.isEmpty(writingInputEditText.getText().toString())) {
+            if (writingInputEditText.getText().toString().equals(noteModel.getContent().toString())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isDrawingChanged() {
+        if (drawingView.getCanvasBitmap() != null && noteModel != null && noteModel.getImage() != null) {
+            if ((drawingView.getCanvasBitmap().sameAs(noteModel.getImage()))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     @Override
     public void onEraserClicked() {
         drawingView.setErase(true);
     }
 
-    /**
-     * DONE
-     */
     @Override
     public void onDrawClicked() {
         drawingView.setErase(false);
@@ -193,7 +206,7 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
         noteModel.setBackground(context.getResources().
                 getResourceEntryName(noteInputEditTextHandler.getBackgroundResId()));
         noteModel.setImage(drawingView.getCanvasBitmap());
-        noteModel.setFolder_id(-1);
+        noteModel.setFolder_id(folderId);
 
         if (interactor.createNote(noteModel)) {
             getMvpView().finishActivity();
@@ -207,6 +220,8 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
 
         noteModel.setBackground(context.getResources().
                 getResourceEntryName(noteInputEditTextHandler.getBackgroundResId()));
+
+        noteModel.setFolder_id(folderId);
 
         if (interactor.updateNote(noteModel)) {
             getMvpView().finishActivity();

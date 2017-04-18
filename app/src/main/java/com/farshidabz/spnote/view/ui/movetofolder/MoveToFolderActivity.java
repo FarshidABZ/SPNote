@@ -138,13 +138,19 @@ public class MoveToFolderActivity extends AppCompatActivity implements MoveToFol
         items.clear();
         ghostAdapter.removeAll();
 
+        FolderModel rootFolder = new FolderModel();
+        rootFolder.setTitle("Home");
+        rootFolder.setId(-1);
+
+        folders.add(0, rootFolder);
+
         for (FolderModel folderModel : folders) {
             FolderListItem folderListItem = new FolderListItem(folderModel);
-            folderListItem.setOnItemClickListener((position, object) -> {
-
-            });
+            folderListItem.setOnItemClickListener((position, object) ->
+                    moveToFolderMvpPresenter.onFolderCLicked((FolderModel) object, noteId));
             items.add(folderListItem);
         }
+
         ghostAdapter.addItems(items);
     }
 }

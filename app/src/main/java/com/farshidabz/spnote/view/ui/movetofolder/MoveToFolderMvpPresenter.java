@@ -1,5 +1,6 @@
 package com.farshidabz.spnote.view.ui.movetofolder;
 
+import com.farshidabz.spnote.model.FolderModel;
 import com.farshidabz.spnote.view.ui.base.MvpPresenter;
 
 /**
@@ -9,5 +10,6 @@ import com.farshidabz.spnote.view.ui.base.MvpPresenter;
 
 public interface MoveToFolderMvpPresenter<V extends MoveToFolderMvpView> extends MvpPresenter<V> {
     void getFolders();
+    void onFolderCLicked(FolderModel folderModel, int noteId);
     void onNewFolderClicked();
 }

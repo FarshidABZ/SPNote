@@ -10,7 +10,7 @@ import com.farshidabz.spnote.view.ui.base.MvpPresenter;
  */
 
 public interface NoteMvpPresenter<V extends NoteMvpView> extends MvpPresenter<V> {
-    void getNote(int noteId);
+    void getNote(int noteId, int folderId);
 
     void onTextStyleClicked();
 

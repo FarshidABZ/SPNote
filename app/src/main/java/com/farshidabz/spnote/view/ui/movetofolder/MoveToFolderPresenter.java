@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 
 import com.farshidabz.spnote.interactor.dbinteractor.DatabaseInteractor;
 import com.farshidabz.spnote.model.FolderModel;
+import com.farshidabz.spnote.model.NoteModel;
 import com.farshidabz.spnote.view.ui.base.BasePresenter;
 import com.farshidabz.spnote.view.ui.movetofolder.newfolder.CreateNewFolderDialog;
 
@@ -31,10 +32,20 @@ public class MoveToFolderPresenter<V extends MoveToFolderMvpView> extends BasePr
     @Override
     public void getFolders() {
         List<FolderModel> folderModels = interactor.getFolders();
-        if (folderModels.isEmpty()) {
+        if (folderModels == null || folderModels.size() == 0) {
             getMvpView().showEmptyState();
         } else {
             getMvpView().showFolders(folderModels);
+        }
+    }
+
+    @Override
+    public void onFolderCLicked(FolderModel folderModel, int noteId) {
+        NoteModel noteModel = interactor.getNote(noteId);
+        noteModel.setFolder_id(folderModel.getId());
+
+        if (interactor.updateNote(noteModel)) {
+            getMvpView().finishActivity();
         }
     }
 
@@ -47,6 +58,7 @@ public class MoveToFolderPresenter<V extends MoveToFolderMvpView> extends BasePr
                 folderModel.setTitle(name);
                 folderModel.setAddress("/appDirectory");
                 if (interactor.createNewFolder(folderModel)) {
+                    getFolders();
                 }
             }
         });

@@ -12,12 +12,12 @@
     <string name="info">Info</string>
     <string name="edit_cover">Edit cover</string>
     <string name="text_style_text">A</string>
-    <string name="type_mode">Type Mode</string>
+    <string name="type_mode">Text</string>
     <string name="drawing">Draw</string>
     <string name="text_style">Text Style</string>
     <string name="color">Color</string>
     <string name="pen_thickness">Pen Thickness</string>
-    <string name="no_note_availabe">There is no noteModel available!</string>
+    <string name="no_note_availabe">There is no note available!</string>
     <string name="tap_plus_to_new_note">Tap on “+” to add new noteModel.</string>
     <string name="paper_style">Paper Style</string>
     <string name="save">Save</string>
@@ -39,6 +39,7 @@
     <string name="select_text">First select text</string>
     <string name="discard_message">Your changes are not saved are you sure you want to discard the changes?</string>
     <string name="remove_note">Are you sure you want to delete this note?</string>
+    <string name="remove_folder">Are you sure you want to delete this folder and its contents?</string>
     <string name="enter_new_name">Enter the note name</string>
     <string name="my_note">mynote</string>
     <string name="confirm">Confirm</string>
@@ -47,5 +48,6 @@
     <string name="enter_folder_name">Enter folder name</string>
     <string name="my_folder">myfolder</string>
     <string name="create_caps">CREATE</string>
+    <string name="exist_note_name">File is exist, choose another name</string>
 
 </resources>

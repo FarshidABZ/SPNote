@@ -8,10 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.farshidabz.spnote.R;
+import com.farshidabz.spnote.interactor.dbinteractor.DatabaseInteractor;
+import com.farshidabz.spnote.model.NoteModel;
 import com.farshidabz.spnote.util.ScreenUtils;
 import com.farshidabz.spnote.view.ui.OnDialogDismissListener;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +32,7 @@ public class SaveNoteDialog extends Dialog {
     @BindView(R.id.etNoteName)
     EditText etNoteName;
     private OnDialogDismissListener onDialogDismissListener;
+    private DatabaseInteractor interactor;
 
     public SaveNoteDialog(@NonNull Context context) {
         super(context);
@@ -44,6 +50,8 @@ public class SaveNoteDialog extends Dialog {
 
         ButterKnife.bind(this);
 
+        interactor = new DatabaseInteractor(getContext());
+
         getWindow().setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.white_background));
         getWindow().setLayout(ScreenUtils.getScreenHeight(getContext()) / 2, RecyclerView.LayoutParams.WRAP_CONTENT);
     }
@@ -55,7 +63,33 @@ public class SaveNoteDialog extends Dialog {
 
     @OnClick(R.id.tvSaveNote)
     public void onSaveNoteClicked() {
+        if (checkForDuplicateName(etNoteName.getText().toString())) {
+            Toast.makeText(getContext(),
+                    getContext().getString(R.string.exist_note_name),
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         dismiss(true);
+    }
+
+    private boolean checkForDuplicateName(String noteName) {
+        if (TextUtils.isEmpty(noteName)) {
+            noteName = getContext().getString(R.string.my_note);
+        }
+
+        List<NoteModel> notes = interactor.getAllNotes();
+        if (notes == null || notes.size() == 0) {
+            return false;
+        }
+
+        for (NoteModel noteModel : notes) {
+            if (noteName.equals(noteModel.getTitle())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void dismiss(boolean saveNote) {
