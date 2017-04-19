@@ -17,15 +17,29 @@
         android:textColor="@color/white"
         android:textSize="16sp" />
 
-    <SeekBar
-        android:id="@+id/sbPenSize"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="24dp"
+        android:layout_height="42dp"
         android:layout_margin="24dp"
-        android:max="20"
-        android:padding="4dp"
-        android:progressDrawable="@drawable/ic_red_slider"
-        android:thumb="@drawable/seekbar_thumb" />
+        android:gravity="center"
+        android:padding="4dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_red_slider" />
+
+        <SeekBar
+            android:id="@+id/sbPenSize"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:layout_centerInParent="true"
+            android:max="20"
+            android:progressDrawable="@null"
+            android:thumb="@drawable/seekbar_thumb" />
+
+    </RelativeLayout>
 
     <include layout="@layout/content_color_style" />
 

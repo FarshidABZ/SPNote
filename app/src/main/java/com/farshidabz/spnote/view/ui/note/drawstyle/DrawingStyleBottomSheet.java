@@ -135,6 +135,9 @@ public class DrawingStyleBottomSheet extends BottomSheetDialogFragment {
     public void onDoneClicked() {
         brushSize = sbPenSize.getProgress() + 4;
 
+        if (colorId == 0) {
+            colorId = R.color.green;
+        }
         if (onDrawingStyleChangeListener != null) {
             onDrawingStyleChangeListener.onDrawingStyleChanged(brushSize, colorId);
         }

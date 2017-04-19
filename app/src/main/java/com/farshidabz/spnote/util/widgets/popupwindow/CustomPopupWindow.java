@@ -18,6 +18,9 @@ import java.util.ArrayList;
 /**
  * Created by FarshidAbz.
  * Since 4/15/2017.
+ *
+ * Custom popup window to show like menu item any where in app
+ * // FIXME: 4/19/2017 in some devices screen locked until chose an item
  */
 
 public class CustomPopupWindow {
@@ -105,6 +108,14 @@ public class CustomPopupWindow {
         }
     }
 
+    public void dismiss() {
+        popupWindow.dismiss();
+    }
+
+    public boolean isPopupWindowShowing() {
+        return isPopupWindowShowing;
+    }
+
     private void initPopupWindow() {
         if (popupWindow != null) {
             return;
@@ -117,6 +128,7 @@ public class CustomPopupWindow {
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
         popupWindow.setOnDismissListener(() -> {
             popupWindow.dismiss();
             isPopupWindowShowing = false;

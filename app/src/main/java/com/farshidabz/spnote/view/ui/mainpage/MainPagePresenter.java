@@ -133,6 +133,7 @@ public class MainPagePresenter<V extends MainPageMvpView> extends BasePresenter<
 
     @Override
     public void onBackPressed() {
+        //check current folder to return to parent folder or exit from app
         if (currentFolderId > 0) {
             getUserData();
             currentFolderId = -1;
@@ -143,6 +144,7 @@ public class MainPagePresenter<V extends MainPageMvpView> extends BasePresenter<
 
     @Override
     public void onNewNoteClicked() {
+        // put folderId to bundle to save note in a right folder
         Bundle bundle = new Bundle();
         bundle.putInt("folderId", currentFolderId);
         ActivityFactory.startActivity(context, NoteActivity.class.getSimpleName(), bundle);

@@ -109,9 +109,24 @@ public class NotesTable extends Table<NoteModel> {
         return noteModel;
     }
 
+
+    /**
+     * Return all notes that they are in a folder
+     *
+     * @param folderId the parent folder id
+     * @return the list of notes
+     */
     public ArrayList<NoteModel> getNotesOfFolder(int folderId) {
         return getNotes(String.valueOf(folderId));
     }
+
+
+    /**
+     * Gets all notes that they haven't folder parent.
+     * Gets all root notes
+     *
+     * @return the list of notes
+     */
 
     public ArrayList<NoteModel> getNotes() {
         return getNotes("");
@@ -141,6 +156,13 @@ public class NotesTable extends Table<NoteModel> {
         return noteModels;
     }
 
+
+    /**
+     * Delete all notes of a folder.
+     *
+     * @param folderId the folder id
+     * @return the boolean
+     */
     public boolean deleteNotesOfFolder(int folderId) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         return db.delete(getTableName(), COLUMN_FOLDER_ID + "=" + folderId, null) > 0;

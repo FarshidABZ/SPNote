@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.text.Spannable;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.farshidabz.spnote.R;
@@ -38,6 +39,7 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
     private int folderId;
 
     DatabaseInteractor interactor;
+    private CustomPopupWindow customPopupWindow;
 
     public NotePresenter(Context context,
                          FragmentManager supportFragmentManager,
@@ -95,11 +97,22 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
 
     @Override
     public void onInputTypeSwitcherClicked(View imgInputTypeSwitcher) {
+        if (customPopupWindow == null) {
+            initCustomPopupWindow(imgInputTypeSwitcher);
+        }
+        if (customPopupWindow.isPopupWindowShowing()) {
+            customPopupWindow.dismiss();
+        } else {
+            customPopupWindow.show();
+        }
+    }
+
+    private void initCustomPopupWindow(View imgInputTypeSwitcher) {
         ArrayList<PopupModel> popupModels = new ArrayList<>();
         popupModels.add(new PopupModel(context.getString(R.string.type_mode)));
         popupModels.add(new PopupModel(context.getString(R.string.drawing)));
 
-        CustomPopupWindow customPopupWindow = new CustomPopupWindow(context, popupModels, imgInputTypeSwitcher);
+        customPopupWindow = new CustomPopupWindow(context, popupModels, imgInputTypeSwitcher);
 
         customPopupWindow.setOnPopupItemClickListener((position, popupModel) -> {
             if (position == 0) {
@@ -116,13 +129,12 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
                 getMvpView().setTextStyleVisibility(View.GONE);
             }
         });
-
-        customPopupWindow.show();
     }
 
     @Override
     public void onBackClicked(boolean saveChanges, int noteId) {
-        if (!isContentChanged() && !isDrawingChanged()) {
+        // if !isAnythingChanged there are no changes and there isn't force to show warning/save dialogs
+        if (!isAnythingChanged()) {
             getMvpView().finishActivity();
             return;
         }
@@ -138,6 +150,24 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
         }
     }
 
+    private boolean isAnythingChanged() {
+        return isContentChanged() || isDrawingChanged() || isPaperStyleChanged();
+    }
+
+    private boolean isPaperStyleChanged() {
+        if (noteModel == null) {
+            return false;
+        } else if (context
+                .getResources()
+                .getResourceEntryName(noteInputEditTextHandler
+                        .getBackgroundResId())
+                .equals(noteModel.getBackground())) {
+            return false;
+        }
+
+        return true;
+    }
+
     private boolean isContentChanged() {
         if (noteModel == null && TextUtils.isEmpty(writingInputEditText.getText().toString())) {
             return false;
@@ -147,18 +177,16 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
                 return false;
             }
         }
-
+        if (noteModel != null && TextUtils.isEmpty(writingInputEditText.getText().toString())) {
+            if (writingInputEditText.getText().toString().equals(noteModel.getContent().toString())) {
+                return false;
+            }
+        }
         return true;
     }
 
     private boolean isDrawingChanged() {
-        if (drawingView.getCanvasBitmap() != null && noteModel != null && noteModel.getImage() != null) {
-            if ((drawingView.getCanvasBitmap().sameAs(noteModel.getImage()))) {
-                return false;
-            }
-        }
-
-        return true;
+        return drawingView.isSomethingDrawn();
     }
 
     @Override
@@ -195,6 +223,18 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
         });
 
         drawingStyleBottomSheet.show(fragmentManager, drawingStyleBottomSheet.getTag());
+    }
+
+    @Override
+    public void hideKeyboard() {
+        if (writingInputEditText != null && writingInputEditText.isFocused()) {
+            try {
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(writingInputEditText.getApplicationWindowToken(), 0);
+            } catch (RuntimeException e) {
+                //ignore
+            }
+        }
     }
 
     private void createNewNote(String noteName) {

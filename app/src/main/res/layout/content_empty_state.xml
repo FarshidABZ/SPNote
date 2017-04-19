@@ -3,6 +3,7 @@
     android:id="@+id/llContentNoNoteAvailabte"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="56dp"
     android:gravity="center"
     android:orientation="vertical">
 

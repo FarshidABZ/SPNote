@@ -25,4 +25,6 @@ public interface NoteMvpPresenter<V extends NoteMvpView> extends MvpPresenter<V>
     void onPaperStyleClicked();
 
     void onDrawingStyleClicked();
+
+    void hideKeyboard();
 }

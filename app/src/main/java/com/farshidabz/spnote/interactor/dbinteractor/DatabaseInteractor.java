@@ -22,6 +22,12 @@ public class DatabaseInteractor {
         dbHandler = new DbHandler(context);
     }
 
+
+    /**
+     * Gets all notes and folders.
+     *
+     * @return the user data
+     */
     public UserData getUserData() {
         ArrayList<FolderModel> folderModels = getFoldersAndContainNotes();
         ArrayList<NoteModel> noteModels = dbHandler.getNotesTable().getNotes();

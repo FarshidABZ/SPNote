@@ -19,6 +19,10 @@ import butterknife.OnClick;
 /**
  * Created by FarshidAbz.
  * Since 4/17/2017.
+ *
+ * A dialog to show warning messages, pass title and messages to show,
+ * and set setOnWarningDialogDismissListener() to get user response
+ *
  */
 
 public class WarningDialog extends Dialog {

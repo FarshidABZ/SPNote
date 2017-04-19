@@ -118,6 +118,7 @@ public class NoteActivity extends BaseActivity implements NoteMvpView {
     @OnClick(R.id.llInputTypeSwitcher)
     public void onSwitchModeClicked() {
         noteMvpPresenter.onInputTypeSwitcherClicked(llInputTypeSwitcher);
+        noteMvpPresenter.hideKeyboard();
     }
 
     @OnClick(R.id.imgEraser)
@@ -180,7 +181,6 @@ public class NoteActivity extends BaseActivity implements NoteMvpView {
 
     @Override
     public void showLoading() {
-
     }
 
     @Override

@@ -18,7 +18,7 @@
     <string name="color">Color</string>
     <string name="pen_thickness">Pen Thickness</string>
     <string name="no_note_availabe">There is no note available!</string>
-    <string name="tap_plus_to_new_note">Tap on “+” to add new noteModel.</string>
+    <string name="tap_plus_to_new_note">Tap on “+” to add new note.</string>
     <string name="paper_style">Paper Style</string>
     <string name="save">Save</string>
     <string name="save_caps">SAVE</string>

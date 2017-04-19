@@ -39,6 +39,7 @@ public class DrawingView extends View {
 
     private int brushSize;
     private boolean canDraw;
+    private boolean somethingDrawn;
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -49,6 +50,8 @@ public class DrawingView extends View {
     private void setupDrawing() {
         path = new Path();
         bitmapPaint = new Paint(Paint.DITHER_FLAG);
+
+        somethingDrawn = false;
 
         initPaint();
     }
@@ -111,6 +114,8 @@ public class DrawingView extends View {
         path.quadTo(X, Y, (x + X) / 2, (y + Y) / 2);
         X = x;
         Y = y;
+
+        somethingDrawn = true;
     }
 
     private void touch_up() {
@@ -119,6 +124,11 @@ public class DrawingView extends View {
         path.reset();
     }
 
+    /**
+     * Enable or disable drawing functionality
+     *
+     * @param canDraw the can draw
+     */
     public void canDraw(boolean canDraw) {
         this.canDraw = canDraw;
     }
@@ -148,6 +158,11 @@ public class DrawingView extends View {
         return true;
     }
 
+    /**
+     * Sets erase mode.
+     *
+     * @param isErase the is erase
+     */
     public void setErase(boolean isErase) {
         if (isErase) {
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
@@ -163,6 +178,11 @@ public class DrawingView extends View {
         paint.setColor(context.getResources().getColor(paintColor));
     }
 
+    /**
+     * Gets drawn image as bitmap.
+     *
+     * @return the canvas bitmap
+     */
     public Bitmap getCanvasBitmap() {
         return bitmap;
     }
@@ -177,5 +197,9 @@ public class DrawingView extends View {
 
     public int getColorId() {
         return colorId;
+    }
+
+    public boolean isSomethingDrawn() {
+        return somethingDrawn;
     }
 }

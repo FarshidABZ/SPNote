@@ -14,7 +14,6 @@ import com.farshidabz.spnote.view.ui.note.textstyle.TextStyle;
  * Created by FarshidAbz.
  * Since 4/14/2017.
  */
-
 public class NoteInputEditTextHandler {
     private EditText inputEditText;
     private int paperStyleId;
@@ -52,6 +51,9 @@ public class NoteInputEditTextHandler {
             case R.drawable.grid_edit_text:
                 setPadding(16);
                 break;
+            default:
+                setPadding(36);
+                break;
         }
     }
 
@@ -62,6 +64,10 @@ public class NoteInputEditTextHandler {
                 ScreenUtils.dpToPx(inputEditText.getContext(), 16));
     }
 
+    /**
+     * Assign paperStyleId to according to notes background to show
+     * right style in paper style sheet.
+     */
     private void getStyleFromBackground() {
         switch (paperId) {
             case R.drawable.line_edit_text:
@@ -76,6 +82,12 @@ public class NoteInputEditTextHandler {
         }
     }
 
+    /**
+     * Sets text style.
+     *
+     * @param textStyle   the text style
+     * @param textColorId the text color id
+     */
     public void setTextStyle(@TextStyle int textStyle, int textColorId) {
         this.textStyle = textStyle;
         this.textColorId = textColorId;
@@ -89,6 +101,12 @@ public class NoteInputEditTextHandler {
         inputEditText.setSelection(inputEditText.getText().length());
     }
 
+
+    /**
+     * Gets background of edit text res id.
+     *
+     * @return the background res id
+     */
     public int getBackgroundResId() {
         if (paperStyleId == 0) {
             return R.drawable.line_edit_text;
@@ -97,6 +115,11 @@ public class NoteInputEditTextHandler {
         return paperId;
     }
 
+    /**
+     * Gets paper style id to show on paper style bottom sheet.
+     *
+     * @return the paper style id
+     */
     public int getPaperStyleId() {
         if (paperStyleId == 0) {
             return R.drawable.line_style;
@@ -118,6 +141,15 @@ public class NoteInputEditTextHandler {
 
         return textColorId;
     }
+
+    /**
+     * Sets input type mode.
+     * <p>
+     * Disable or enable writing/drawing mode
+     *
+     * @param writingMode the writing mode
+     * @param drawingView the drawing view
+     */
 
     public void setInputTypeMode(boolean writingMode, DrawingView drawingView) {
         if (writingMode)

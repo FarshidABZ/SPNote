@@ -10,6 +10,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".view.ui.mainpage.MainPageActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MainPageActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,8 +20,11 @@
         </activity>
         <activity
             android:name=".view.ui.note.NoteActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/NoteActivitiesTheme" />
-        <activity android:name=".view.ui.movetofolder.MoveToFolderActivity"></activity>
+        <activity
+            android:name=".view.ui.movetofolder.MoveToFolderActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
