@@ -16,7 +16,10 @@ SPNote is an aplication that allows user to write some notes and draw on them.
 
 
 ### Features
-- Material Desing UI
+Actually the following functions are implemented:
+- Material Design interface
+- Create, update and delete notes
+- Sketch-note mode
 - Text style panel
 - Drawing style panel
 - Paper style panel
