@@ -8,3 +8,4 @@
 .externalNativeBuild
 /app/spnote.apk
 /SPNote.apk
+/keyStore.jks
