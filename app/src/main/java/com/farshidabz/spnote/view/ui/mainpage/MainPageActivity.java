@@ -14,6 +14,10 @@ import com.farshidabz.spnote.model.UserData;
 import com.farshidabz.spnote.view.ui.mainpage.viewtypes.EmptyStateItem;
 import com.farshidabz.spnote.view.ui.mainpage.viewtypes.FolderItem;
 import com.farshidabz.spnote.view.ui.mainpage.viewtypes.NotesItem;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +36,15 @@ public class MainPageActivity extends AppCompatActivity implements MainPageMvpVi
     @BindView(R.id.rvMainPage)
     RecyclerView rvMainPage;
 
+    @BindView(R.id.adView)
+    AdView adView;
+
     MainPageMvpPresenter mainPageMvpPresenter;
 
     GhostAdapter ghostAdapter;
     List<Object> items;
+
+    private FirebaseAnalytics firebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +53,53 @@ public class MainPageActivity extends AppCompatActivity implements MainPageMvpVi
 
         ButterKnife.bind(this);
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        initAdView();
+
         mainPageMvpPresenter = new MainPagePresenter(this, getSupportFragmentManager());
         mainPageMvpPresenter.onAttach(this);
 
         initRvMainPage();
+    }
+
+    private void initAdView() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                Bundle bundle = new Bundle();
+                bundle.putInt("ad_mob_failed", i);
+                firebaseAnalytics.logEvent("ad_mob", bundle);
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("ad_mob_opened", true);
+                firebaseAnalytics.logEvent("ad_mob", bundle);
+            }
+
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("ad_mob_loaded", true);
+                firebaseAnalytics.logEvent("ad_mob", bundle);
+            }
+
+            @Override
+            public void onAdClicked() {
+                super.onAdClicked();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("ad_mob_clicked", true);
+                firebaseAnalytics.logEvent("ad_mob", bundle);
+            }
+        });
     }
 
     @Override

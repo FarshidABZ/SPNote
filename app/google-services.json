@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1048362008421",
+    "firebase_url": "https://spnote-216a3.firebaseio.com",
+    "project_id": "spnote-216a3",
+    "storage_bucket": "spnote-216a3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048362008421:android:28ead5124511a860",
+        "android_client_info": {
+          "package_name": "com.farshidabz.spnote"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1048362008421-fjqpai7acv6or73pq7l269b3l7v4e8cd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.farshidabz.spnote",
+            "certificate_hash": "93939a91044a7e25232fad643d38aa94baa16f58"
+          }
+        },
+        {
+          "client_id": "1048362008421-7beniravrscptu85fgmd82j7m9supabo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLm1GFIQdTrIKXu-_b7l2cwoU5qNjGFf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1048362008421-7beniravrscptu85fgmd82j7m9supabo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

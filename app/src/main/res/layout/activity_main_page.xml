@@ -32,10 +32,21 @@
         android:layout_height="56dp"
         android:layout_margin="24dp"
         android:clickable="true"
+        android:focusable="true"
         app:fabSize="normal"
         app:layout_anchor="@id/rvMainPage"
         app:layout_anchorGravity="bottom|right|end"
         app:srcCompat="@drawable/ic_add_white" />
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/ad_mob_banner_id">
+
+    </com.google.android.gms.ads.AdView>
 
 
 </android.support.design.widget.CoordinatorLayout>
