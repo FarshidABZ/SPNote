@@ -15,9 +15,10 @@
     </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
+        android:id="@+id/xx"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
 
         <EditText
             android:id="@+id/etContentField"
@@ -29,7 +30,9 @@
             android:paddingLeft="36dp"
             android:paddingTop="16dp"
             android:paddingRight="16dp"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:paddingStart="36dp"
+            android:paddingEnd="16dp" />
 
         <View
             android:layout_width="match_parent"
@@ -51,5 +54,17 @@
             ads:adUnitId="@string/ad_mob_banner_id" />
 
     </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabVoiceToText"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:fabSize="normal"
+        app:layout_anchor="@id/xx"
+        app:layout_anchorGravity="bottom|right|end"
+        app:srcCompat="@drawable/ic_voice_white" />
 
 </android.support.design.widget.CoordinatorLayout>

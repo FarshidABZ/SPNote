@@ -6,12 +6,13 @@ android {
     buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "com.farshidabz.spnote"
-        minSdkVersion 14
+        minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
 
+        multiDexEnabled = true
         resValue "string", "ad_mob_api_key", (project.findProperty("AD_MOB_APP_ID") ?: "")
         resValue "string", "ad_mob_banner_id", (project.findProperty("AD_MOB_BANNER_ID") ?: "")
     }
@@ -26,10 +27,38 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
     }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
+    flavorDimensions 'SPNoteFlavorDimenstion'
+    productFlavors {
+        staging {
+            dimension = 'SPNoteFlavorDimenstion'
+            minSdkVersion 17
+            applicationId = 'com.farshidabz.spnote.staging'
+            targetSdkVersion 28
+        }
+        forrelease {
+            dimension = 'SPNoteFlavorDimenstion'
+            minSdkVersion 17
+            applicationId = 'com.farshidabz.spnote'
+            targetSdkVersion 28
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support:multidex:1.0.3'
 
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:28.0.0'

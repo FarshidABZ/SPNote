@@ -1,6 +1,10 @@
 package com.farshidabz.spnote.view.ui.note;
 
+import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
@@ -23,12 +27,16 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import java.util.ArrayList;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class NoteActivity extends BaseActivity implements NoteMvpView {
 
+    private static final int REQ_CODE_SPEECH_INPUT = 75;
     @BindView(R.id.NoteActivityToolbar)
     Toolbar noteActivityToolbar;
     @BindView(R.id.imgTextStyle)
@@ -65,7 +73,7 @@ public class NoteActivity extends BaseActivity implements NoteMvpView {
         ButterKnife.bind(this);
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        
+
         initAdView();
 
         noteMvpPresenter = new NotePresenter(this,
@@ -133,6 +141,19 @@ public class NoteActivity extends BaseActivity implements NoteMvpView {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
+    private void startVoiceInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.speak));
+
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException ignored) {
+
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -158,6 +179,20 @@ public class NoteActivity extends BaseActivity implements NoteMvpView {
     @Override
     public void onBackPressed() {
         noteMvpPresenter.onBackClicked(true, noteId);
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQ_CODE_SPEECH_INPUT) {
+            if (resultCode == RESULT_OK && null != data) {
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                etContentField.setText(etContentField.getText().append(result.get(0)) + " ");
+                etContentField.setSelection(etContentField.getText().length());
+            }
+        }
     }
 
     @OnClick(R.id.imgTextStyle)
@@ -188,6 +223,11 @@ public class NoteActivity extends BaseActivity implements NoteMvpView {
     @OnClick(R.id.imgDrawingPen)
     public void onImgDrawingPenClicked() {
         noteMvpPresenter.onDrawingStyleClicked();
+    }
+
+    @OnClick(R.id.fabVoiceToText)
+    public void onVoiceToTextClicked() {
+        startVoiceInput();
     }
 
     @Override

@@ -1,10 +1,10 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SP Note</string>
     <string name="notebook">NoteBook</string>
     <string name="folder_name">Folder name</string>
     <string name="note_name">Note name</string>
     <string name="cancel">Cancel</string>
-    <string name="cancel_caps">CANCEL</string>
+    <string name="cancel_caps" tools:ignore="ButtonCase">CANCEL</string>
     <string name="ok">OK</string>
     <string name="choose_background_image">Choose background image</string>
     <string name="rename">Rename</string>
@@ -46,8 +46,9 @@
     <string name="do_you_want_to_save_changes">Do you want to save changes?</string>
     <string name="this_folder_is_empty">This folder is empty</string>
     <string name="enter_folder_name">Enter folder name</string>
-    <string name="my_folder">myfolder</string>
+    <string name="my_folder">my folder</string>
     <string name="create_caps">CREATE</string>
     <string name="exist_note_name">File is exist, choose another name</string>
+    <string name="speak">Speak…</string>
 
 </resources>
