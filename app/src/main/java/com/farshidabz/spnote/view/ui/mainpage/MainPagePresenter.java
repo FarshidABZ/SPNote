@@ -2,7 +2,7 @@ package com.farshidabz.spnote.view.ui.mainpage;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 
 import com.farshidabz.spnote.R;
 import com.farshidabz.spnote.flowcontroller.ActivityFactory;

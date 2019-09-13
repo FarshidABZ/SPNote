@@ -1,7 +1,7 @@
 package com.farshidabz.spnote.view.ui.note;
 
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 import android.text.Spannable;
 import android.text.TextUtils;
 import android.view.View;

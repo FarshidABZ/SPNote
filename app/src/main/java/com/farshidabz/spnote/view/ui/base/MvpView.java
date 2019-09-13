@@ -1,6 +1,6 @@
 package com.farshidabz.spnote.view.ui.base;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 /**
  * Created by FarshidAbz.

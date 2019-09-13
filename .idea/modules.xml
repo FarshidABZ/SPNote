@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SPNote.iml" filepath="$PROJECT_DIR$/SPNote.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SuperNote.iml" filepath="$PROJECT_DIR$/SuperNote.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -1,6 +1,6 @@
 package com.farshidabz.spnote.view.ui.note.paperstyle;
 
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 
 /**
  * Created by FarshidAbz.

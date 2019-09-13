@@ -1,6 +1,6 @@
 package com.farshidabz.spnote.view.ui.note;
 
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 
 import com.farshidabz.spnote.model.NoteModel;
 import com.farshidabz.spnote.view.ui.base.MvpView;

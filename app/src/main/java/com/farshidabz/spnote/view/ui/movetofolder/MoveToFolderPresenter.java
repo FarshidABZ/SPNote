@@ -1,7 +1,7 @@
 package com.farshidabz.spnote.view.ui.movetofolder;
 
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 
 import com.farshidabz.spnote.interactor.dbinteractor.DatabaseInteractor;
 import com.farshidabz.spnote.model.FolderModel;

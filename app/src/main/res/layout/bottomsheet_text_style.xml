@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgRegular"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -31,7 +31,7 @@
             android:padding="12dp"
             app:srcCompat="@drawable/ic_regular" />
 
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgItalic"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -40,7 +40,7 @@
             android:padding="8dp"
             app:srcCompat="@drawable/ic_format_italic_white" />
 
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgBold"
             android:layout_width="40dp"
             android:layout_height="40dp"
