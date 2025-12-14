@@ -14,10 +14,10 @@ import com.farshidabz.spnote.model.UserData;
 import com.farshidabz.spnote.view.ui.mainpage.viewtypes.EmptyStateItem;
 import com.farshidabz.spnote.view.ui.mainpage.viewtypes.FolderItem;
 import com.farshidabz.spnote.view.ui.mainpage.viewtypes.NotesItem;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.firebase.analytics.FirebaseAnalytics;
+// import com.google.android.gms.ads.AdListener; // Commented: AdMob Ads removed to allow build without deprecated Google Play services Ads
+// import com.google.android.gms.ads.AdRequest; // Commented: AdMob Ads removed
+// import com.google.android.gms.ads.AdView; // Commented: AdMob Ads removed
+// import com.google.firebase.analytics.FirebaseAnalytics; // Commented: Firebase Analytics removed to avoid legacy Firebase core
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import ir.coderz.ghostadapter.GhostAdapter;
+// import ir.coderz.ghostadapter.GhostAdapter; // Commented: GhostAdapter library is unavailable (was on JCenter); all usages below are disabled to allow build
 
 /**
  * Created by FarshidAbz.
@@ -36,15 +36,15 @@ public class MainPageActivity extends AppCompatActivity implements MainPageMvpVi
     @BindView(R.id.rvMainPage)
     RecyclerView rvMainPage;
 
-    @BindView(R.id.adView)
-    AdView adView;
+    // @BindView(R.id.adView)
+    // AdView adView; // Commented: AdMob Ads removed to allow build without Google Play services Ads
 
     MainPageMvpPresenter mainPageMvpPresenter;
 
-    GhostAdapter ghostAdapter;
-    List<Object> items;
+    // GhostAdapter ghostAdapter; // Commented: GhostAdapter lib removed to allow build
+    // List<Object> items; // Commented: Depends on GhostAdapter item list
 
-    private FirebaseAnalytics firebaseAnalytics;
+    // private FirebaseAnalytics firebaseAnalytics; // Commented: Firebase Analytics removed to allow build without Firebase
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +53,9 @@ public class MainPageActivity extends AppCompatActivity implements MainPageMvpVi
 
         ButterKnife.bind(this);
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        // firebaseAnalytics = FirebaseAnalytics.getInstance(this); // Commented: Firebase Analytics removed to allow build without Firebase
 
-        initAdView();
+        // initAdView(); // Commented: AdMob Ads removed to allow build without Google Play services Ads
 
         mainPageMvpPresenter = new MainPagePresenter(this, getSupportFragmentManager());
         mainPageMvpPresenter.onAttach(this);
@@ -63,44 +63,44 @@ public class MainPageActivity extends AppCompatActivity implements MainPageMvpVi
         initRvMainPage();
     }
 
-    private void initAdView() {
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
-
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdFailedToLoad(int i) {
-                super.onAdFailedToLoad(i);
-                Bundle bundle = new Bundle();
-                bundle.putInt("ad_mob_failed", i);
-                firebaseAnalytics.logEvent("ad_mob", bundle);
-            }
-
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("ad_mob_opened", true);
-                firebaseAnalytics.logEvent("ad_mob", bundle);
-            }
-
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("ad_mob_loaded", true);
-                firebaseAnalytics.logEvent("ad_mob", bundle);
-            }
-
-            @Override
-            public void onAdClicked() {
-                super.onAdClicked();
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("ad_mob_clicked", true);
-                firebaseAnalytics.logEvent("ad_mob", bundle);
-            }
-        });
-    }
+//    private void initAdView() {
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        adView.loadAd(adRequest);
+//
+//        adView.setAdListener(new AdListener() {
+//            @Override
+//            public void onAdFailedToLoad(int i) {
+//                super.onAdFailedToLoad(i);
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("ad_mob_failed", i);
+//                firebaseAnalytics.logEvent("ad_mob", bundle);
+//            }
+//
+//            @Override
+//            public void onAdOpened() {
+//                super.onAdOpened();
+//                Bundle bundle = new Bundle();
+//                bundle.putBoolean("ad_mob_opened", true);
+//                firebaseAnalytics.logEvent("ad_mob", bundle);
+//            }
+//
+//            @Override
+//            public void onAdLoaded() {
+//                super.onAdLoaded();
+//                Bundle bundle = new Bundle();
+//                bundle.putBoolean("ad_mob_loaded", true);
+//                firebaseAnalytics.logEvent("ad_mob", bundle);
+//            }
+//
+//            @Override
+//            public void onAdClicked() {
+//                super.onAdClicked();
+//                Bundle bundle = new Bundle();
+//                bundle.putBoolean("ad_mob_clicked", true);
+//                firebaseAnalytics.logEvent("ad_mob", bundle);
+//            }
+//        });
+//    }
 
     @Override
     protected void onResume() {
@@ -109,10 +109,10 @@ public class MainPageActivity extends AppCompatActivity implements MainPageMvpVi
     }
 
     private void initRvMainPage() {
-        ghostAdapter = new GhostAdapter();
-        items = new ArrayList<>();
-
-        rvMainPage.setAdapter(ghostAdapter);
+//        ghostAdapter = new GhostAdapter();
+//        items = new ArrayList<>();
+//
+//        rvMainPage.setAdapter(ghostAdapter);
     }
 
     @OnClick(R.id.fabAddNewNote)
@@ -128,13 +128,13 @@ public class MainPageActivity extends AppCompatActivity implements MainPageMvpVi
     @Override
     public void showUserData(UserData userData) {
         rvMainPage.setLayoutManager(new GridLayoutManager(this, 3));
-        ghostAdapter.removeAll();
-        items.clear();
+//        ghostAdapter.removeAll();
+//        items.clear();
 
         showFolders(userData.getFolderModel());
         showUserNotes(userData.getNoteModel());
 
-        ghostAdapter.addItems(items);
+//        ghostAdapter.addItems(items);
     }
 
     private void showFolders(List<FolderModel> folderModels) {
@@ -145,7 +145,7 @@ public class MainPageActivity extends AppCompatActivity implements MainPageMvpVi
             FolderItem folderItem = new FolderItem(folderModel);
             folderItem.setOnItemClickListener((position, object) ->
                     mainPageMvpPresenter.onFolderClicked((FolderModel) object));
-            items.add(folderItem);
+//            items.add(folderItem);
         }
     }
 
@@ -160,7 +160,7 @@ public class MainPageActivity extends AppCompatActivity implements MainPageMvpVi
             noteItem.setOnItemClickListener((position, object) ->
                     mainPageMvpPresenter.onNoteClicked((NoteModel) object));
 
-            items.add(noteItem);
+//            items.add(noteItem);
         }
     }
 
@@ -176,10 +176,10 @@ public class MainPageActivity extends AppCompatActivity implements MainPageMvpVi
 
     @Override
     public void showEmptyState() {
-        items.clear();
-        ghostAdapter.removeAll();
-        rvMainPage.setLayoutManager(new LinearLayoutManager(this));
-        ghostAdapter.addItem(new EmptyStateItem());
+//        items.clear();
+//        ghostAdapter.removeAll();
+//        rvMainPage.setLayoutManager(new LinearLayoutManager(this));
+//        ghostAdapter.addItem(new EmptyStateItem());
     }
 
     @Override

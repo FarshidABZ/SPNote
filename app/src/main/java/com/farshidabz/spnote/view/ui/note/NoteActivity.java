@@ -22,10 +22,10 @@ import com.farshidabz.spnote.R;
 import com.farshidabz.spnote.model.NoteModel;
 import com.farshidabz.spnote.util.widgets.DrawingView;
 import com.farshidabz.spnote.view.ui.base.BaseActivity;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.firebase.analytics.FirebaseAnalytics;
+// import com.google.android.gms.ads.AdListener; // Commented: AdMob Ads removed to allow build without Google Play services Ads
+// import com.google.android.gms.ads.AdRequest; // Commented: AdMob Ads removed
+// import com.google.android.gms.ads.AdView; // Commented: AdMob Ads removed
+// import com.google.firebase.analytics.FirebaseAnalytics; // Commented: Firebase Analytics removed to allow build without Firebase
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -56,12 +56,12 @@ public class NoteActivity extends BaseActivity implements NoteMvpView {
     @BindView(R.id.llInputTypeSwitcher)
     LinearLayout llInputTypeSwitcher;
 
-    @BindView(R.id.adView)
-    AdView adView;
+    // @BindView(R.id.adView)
+    // AdView adView; // Commented: AdMob Ads removed to allow build without Google Play services Ads
 
     NoteMvpPresenter noteMvpPresenter;
 
-    private FirebaseAnalytics firebaseAnalytics;
+    // private FirebaseAnalytics firebaseAnalytics; // Commented: Firebase Analytics removed to allow build without Firebase
 
     private int noteId;
 
@@ -72,9 +72,9 @@ public class NoteActivity extends BaseActivity implements NoteMvpView {
 
         ButterKnife.bind(this);
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+//        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        initAdView();
+//        initAdView();
 
         noteMvpPresenter = new NotePresenter(this,
                 getSupportFragmentManager(),
@@ -87,44 +87,44 @@ public class NoteActivity extends BaseActivity implements NoteMvpView {
         getData();
     }
 
-    private void initAdView() {
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
-
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdFailedToLoad(int i) {
-                super.onAdFailedToLoad(i);
-                Bundle bundle = new Bundle();
-                bundle.putInt("ad_mob_failed", i);
-                firebaseAnalytics.logEvent("ad_mob", bundle);
-            }
-
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("ad_mob_opened", true);
-                firebaseAnalytics.logEvent("ad_mob", bundle);
-            }
-
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("ad_mob_loaded", true);
-                firebaseAnalytics.logEvent("ad_mob", bundle);
-            }
-
-            @Override
-            public void onAdClicked() {
-                super.onAdClicked();
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("ad_mob_clicked", true);
-                firebaseAnalytics.logEvent("ad_mob", bundle);
-            }
-        });
-    }
+//    private void initAdView() {
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        adView.loadAd(adRequest);
+//
+//        adView.setAdListener(new AdListener() {
+//            @Override
+//            public void onAdFailedToLoad(int i) {
+//                super.onAdFailedToLoad(i);
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("ad_mob_failed", i);
+//                firebaseAnalytics.logEvent("ad_mob", bundle);
+//            }
+//
+//            @Override
+//            public void onAdOpened() {
+//                super.onAdOpened();
+//                Bundle bundle = new Bundle();
+//                bundle.putBoolean("ad_mob_opened", true);
+//                firebaseAnalytics.logEvent("ad_mob", bundle);
+//            }
+//
+//            @Override
+//            public void onAdLoaded() {
+//                super.onAdLoaded();
+//                Bundle bundle = new Bundle();
+//                bundle.putBoolean("ad_mob_loaded", true);
+//                firebaseAnalytics.logEvent("ad_mob", bundle);
+//            }
+//
+//            @Override
+//            public void onAdClicked() {
+//                super.onAdClicked();
+//                Bundle bundle = new Bundle();
+//                bundle.putBoolean("ad_mob_clicked", true);
+//                firebaseAnalytics.logEvent("ad_mob", bundle);
+//            }
+//        });
+//    }
 
     private void getData() {
         noteId = getIntent().getIntExtra("noteId", -1);

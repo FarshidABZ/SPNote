@@ -21,7 +21,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import ir.coderz.ghostadapter.GhostAdapter;
+//import ir.coderz.ghostadapter.GhostAdapter;
 
 public class MoveToFolderActivity extends AppCompatActivity implements MoveToFolderMvpView {
     @BindView(R.id.moveNoteActivityToolbar)
@@ -37,7 +37,7 @@ public class MoveToFolderActivity extends AppCompatActivity implements MoveToFol
 
     MoveToFolderMvpPresenter moveToFolderMvpPresenter;
 
-    GhostAdapter ghostAdapter;
+//    GhostAdapter ghostAdapter;
     ArrayList<Object> items;
     private int noteId;
     private String noteTitle;
@@ -77,10 +77,10 @@ public class MoveToFolderActivity extends AppCompatActivity implements MoveToFol
     }
 
     private void initRecyclerView() {
-        ghostAdapter = new GhostAdapter();
+//        ghostAdapter = new GhostAdapter();
         items = new ArrayList<>();
 
-        rvFolderList.setAdapter(ghostAdapter);
+//        rvFolderList.setAdapter(ghostAdapter);
         rvFolderList.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -122,10 +122,10 @@ public class MoveToFolderActivity extends AppCompatActivity implements MoveToFol
     @Override
     public void showEmptyState() {
         items.clear();
-        ghostAdapter.removeAll();
+//        ghostAdapter.removeAll();
         FolderEmptyStateItem folderEmptyStateItem = new FolderEmptyStateItem();
         items.add(folderEmptyStateItem);
-        ghostAdapter.addItems(items);
+//        ghostAdapter.addItems(items);
     }
 
     @Override
@@ -136,7 +136,7 @@ public class MoveToFolderActivity extends AppCompatActivity implements MoveToFol
     @Override
     public void showFolders(List<FolderModel> folders) {
         items.clear();
-        ghostAdapter.removeAll();
+//        ghostAdapter.removeAll();
 
         FolderModel rootFolder = new FolderModel();
         rootFolder.setTitle("Home");
@@ -151,6 +151,6 @@ public class MoveToFolderActivity extends AppCompatActivity implements MoveToFol
             items.add(folderListItem);
         }
 
-        ghostAdapter.addItems(items);
+//        ghostAdapter.addItems(items);
     }
 }

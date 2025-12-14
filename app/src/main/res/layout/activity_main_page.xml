@@ -39,6 +39,7 @@
         app:layout_anchorGravity="bottom|right|end"
         app:srcCompat="@drawable/ic_add_white" />
 
+    <!-- AdMob banner removed to allow building without Google Play services Ads (legacy dependency)
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="match_parent"
@@ -46,6 +47,7 @@
         android:layout_gravity="bottom"
         ads:adSize="SMART_BANNER"
         ads:adUnitId="@string/ad_mob_banner_id"/>
+    -->
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -45,6 +45,7 @@
             android:layout_height="match_parent"
             android:background="@android:color/transparent" />
 
+        <!-- AdMob banner removed to allow building without Google Play services Ads (legacy dependency)
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView"
             android:layout_width="match_parent"
@@ -52,6 +53,7 @@
             android:layout_alignParentBottom="true"
             ads:adSize="BANNER"
             ads:adUnitId="@string/ad_mob_banner_id" />
+        -->
 
     </RelativeLayout>
 
