@@ -51,4 +51,15 @@
     <string name="exist_note_name">File is exist, choose another name</string>
     <string name="speak">Speak…</string>
 
+    // NEW STRINGS
+    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_bookmark">Bookmarks</string>
+    <string name="bottom_nav_setting">Settings</string>
+
+    <string name="search">Search</string>
+    <string name="clear_search">Clear search</string>
+    <string name="search_placeholder">Search for notes</string>
+
+    <string name="new_note">New Note</string>
+
 </resources>

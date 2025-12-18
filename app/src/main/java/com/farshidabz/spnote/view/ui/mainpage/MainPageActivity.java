@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.view.ui.mainpage;
 
 import android.os.Bundle;
@@ -27,10 +28,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 // import ir.coderz.ghostadapter.GhostAdapter; // Commented: GhostAdapter library is unavailable (was on JCenter); all usages below are disabled to allow build
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/12/2017.
- */
+ *//*
+
 
 public class MainPageActivity extends AppCompatActivity implements MainPageMvpView {
     @BindView(R.id.rvMainPage)
@@ -202,4 +205,4 @@ public class MainPageActivity extends AppCompatActivity implements MainPageMvpVi
     @Override
     public void onError(String message) {
     }
-}
+}*/

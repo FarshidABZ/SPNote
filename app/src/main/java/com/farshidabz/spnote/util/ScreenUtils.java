@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.util;
 
 import android.content.Context;
@@ -6,10 +7,12 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/12/2017.
- */
+ *//*
+
 
 public class ScreenUtils {
     public static int getScreenWidth(Context context) {
@@ -36,3 +39,4 @@ public class ScreenUtils {
         return Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }
+*/

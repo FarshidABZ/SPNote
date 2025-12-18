@@ -56,9 +56,9 @@ public class FolderTable extends Table<FolderModel> {
     @Override
     protected FolderModel CursorToObject(Cursor c) {
         FolderModel folderModel = new FolderModel();
-        folderModel.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
-        folderModel.setTitle(c.getString(c.getColumnIndex(COLUMN_TITLE)));
-        folderModel.setAddress(c.getString(c.getColumnIndex(COLUMN_ADDRESS)));
+//        folderModel.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
+//        folderModel.setTitle(c.getString(c.getColumnIndex(COLUMN_TITLE)));
+//        folderModel.setAddress(c.getString(c.getColumnIndex(COLUMN_ADDRESS)));
         return folderModel;
     }
 }

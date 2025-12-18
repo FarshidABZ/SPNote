@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.view.ui.mainpage.viewtypes;
 
 import com.farshidabz.spnote.R;
@@ -7,10 +8,12 @@ import com.farshidabz.spnote.view.ui.OnItemClickListener;
 // import ir.coderz.ghostadapter.BindItem; // Commented: GhostAdapter annotations unavailable; JCenter is EOL
 // import ir.coderz.ghostadapter.Binder; // Commented: GhostAdapter annotations unavailable
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/13/2017.
- */
+ *//*
+
 
 // @BindItem(layout = R.layout.content_notes, holder = NotesHolder.class) // Commented: GhostAdapter annotation removed to allow build
 public class NotesItem {
@@ -42,3 +45,4 @@ public class NotesItem {
         // });
     }
 }
+*/

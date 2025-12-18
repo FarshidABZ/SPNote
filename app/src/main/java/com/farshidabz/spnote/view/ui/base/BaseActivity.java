@@ -1,6 +1,7 @@
 package com.farshidabz.spnote.view.ui.base;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -8,27 +9,21 @@ import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import com.google.android.material.snackbar.Snackbar;
 import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.farshidabz.spnote.R;
-import com.farshidabz.spnote.util.CommonUtils;
-
-import butterknife.Unbinder;
 
 /**
  * Created by FarshidAbz.
  * Since 4/15/2017.
  */
 
-public abstract class BaseActivity extends AppCompatActivity
+public abstract class BaseActivity extends Activity
         implements MvpView {
     private ProgressDialog progressDialog;
-    private Unbinder unBinder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     public void showLoading() {
         hideLoading();
-        progressDialog = CommonUtils.showLoadingDialog(this);
+//        progressDialog = CommonUtils.showLoadingDialog(this);
     }
 
     @Override
@@ -76,13 +71,13 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     private void showSnackBar(String message) {
-        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),
-                message, Snackbar.LENGTH_SHORT);
-        View sbView = snackbar.getView();
-        TextView textView = (TextView) sbView
-                .findViewById(com.google.android.material.R.id.snackbar_text);
-        textView.setTextColor(ContextCompat.getColor(this, R.color.white));
-        snackbar.show();
+//        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),
+//                message, Snackbar.LENGTH_SHORT);
+//        View sbView = snackbar.getView();
+//        TextView textView = (TextView) sbView
+//                .findViewById(com.google.android.material.R.id.snackbar_text);
+//        textView.setTextColor(ContextCompat.getColor(this, R.color.white));
+//        snackbar.show();
     }
 
     @Override
@@ -91,24 +86,24 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     public void hideKeyboard() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)
-                    getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+//        View view = this.getCurrentFocus();
+//        if (view != null) {
+//            InputMethodManager imm = (InputMethodManager)
+//                    getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+//        }
     }
 
-    public void setUnBinder(Unbinder unBinder) {
-        this.unBinder = unBinder;
-    }
+//    public void setUnBinder(Unbinder unBinder) {
+//        this.unBinder = unBinder;
+//    }
 
     @Override
     protected void onDestroy() {
 
-        if (unBinder != null) {
-            unBinder.unbind();
-        }
+//        if (unBinder != null) {
+//            unBinder.unbind();
+//        }
         super.onDestroy();
     }
 

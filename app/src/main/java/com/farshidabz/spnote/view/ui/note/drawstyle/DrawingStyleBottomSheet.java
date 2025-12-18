@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.view.ui.note.drawstyle;
 
 import android.os.Bundle;
@@ -14,10 +15,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/16/2017.
- */
+ *//*
+
 
 public class DrawingStyleBottomSheet extends BottomSheetDialogFragment {
     @BindView(R.id.sbPenSize)
@@ -144,3 +147,4 @@ public class DrawingStyleBottomSheet extends BottomSheetDialogFragment {
         dismiss();
     }
 }
+*/

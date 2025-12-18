@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.util.widgets.popupwindow;
 
 import android.content.Context;
@@ -15,13 +16,15 @@ import com.farshidabz.spnote.model.PopupModel;
 
 import java.util.ArrayList;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/15/2017.
  *
  * Custom popup window to show like menu item any where in app
  * // FIXME: 4/19/2017 in some devices screen locked until chose an item
- */
+ *//*
+
 
 public class CustomPopupWindow {
     private Context context;
@@ -149,3 +152,4 @@ public class CustomPopupWindow {
         popupWindowRecycler.setLayoutManager(new LinearLayoutManager(context));
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.view.ui.note;
 
 import android.annotation.SuppressLint;
@@ -291,4 +292,4 @@ public class NoteActivity extends BaseActivity implements NoteMvpView {
     public void onError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.view.ui.note.savenote;
 
 import android.app.Dialog;
@@ -22,10 +23,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/16/2017.
- */
+ *//*
+
 
 public class SaveNoteDialog extends Dialog {
 
@@ -101,3 +104,4 @@ public class SaveNoteDialog extends Dialog {
         dismiss();
     }
 }
+*/

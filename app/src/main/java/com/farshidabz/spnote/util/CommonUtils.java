@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.util;
 
 import android.app.ProgressDialog;
@@ -7,10 +8,12 @@ import android.graphics.drawable.ColorDrawable;
 
 import com.farshidabz.spnote.R;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/15/2017.
- */
+ *//*
+
 
 public class CommonUtils {
     public static ProgressDialog showLoadingDialog(Context context) {
@@ -26,3 +29,4 @@ public class CommonUtils {
         return progressDialog;
     }
 }
+*/

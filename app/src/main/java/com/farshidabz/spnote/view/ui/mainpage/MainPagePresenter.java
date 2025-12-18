@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.view.ui.mainpage;
 
 import android.content.Context;
@@ -20,10 +21,12 @@ import com.farshidabz.spnote.view.ui.warningdialog.WarningDialog;
 
 import java.util.List;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/17/2017.
- */
+ *//*
+
 
 public class MainPagePresenter<V extends MainPageMvpView> extends BasePresenter<V>
         implements MainPageMvpPresenter<V> {
@@ -150,3 +153,4 @@ public class MainPagePresenter<V extends MainPageMvpView> extends BasePresenter<
         ActivityFactory.startActivity(context, NoteActivity.class.getSimpleName(), bundle);
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.util;
 
 import android.graphics.Bitmap;
@@ -5,10 +6,12 @@ import android.graphics.BitmapFactory;
 
 import java.io.ByteArrayOutputStream;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/15/2017.
- */
+ *//*
+
 
 public class BitmapConverter {
 
@@ -22,3 +25,4 @@ public class BitmapConverter {
         return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 }
+*/

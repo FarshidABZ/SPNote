@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.view.ui.note.textstyle;
 
 import android.os.Bundle;
@@ -14,10 +15,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/14/2017.
- */
+ *//*
+
 
 public class TextStyleBottomSheet extends BottomSheetDialogFragment {
     @BindView(R.id.rlBlue)
@@ -184,3 +187,4 @@ public class TextStyleBottomSheet extends BottomSheetDialogFragment {
         dismiss();
     }
 }
+*/

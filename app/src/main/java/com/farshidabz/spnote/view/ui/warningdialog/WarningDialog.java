@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.view.ui.warningdialog;
 
 import android.app.Dialog;
@@ -16,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/17/2017.
@@ -23,7 +25,8 @@ import butterknife.OnClick;
  * A dialog to show warning messages, pass title and messages to show,
  * and set setOnWarningDialogDismissListener() to get user response
  *
- */
+ *//*
+
 
 public class WarningDialog extends Dialog {
     private OnWarningDialogDismissListener onDismissListener;
@@ -85,3 +88,4 @@ public class WarningDialog extends Dialog {
         dismiss();
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.view.ui.note.paperstyle;
 
 import android.graphics.drawable.Drawable;
@@ -15,10 +16,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/14/2017.
- */
+ *//*
+
 
 public class PaperStyleBottomSheet extends BottomSheetDialogFragment {
 
@@ -120,3 +123,4 @@ public class PaperStyleBottomSheet extends BottomSheetDialogFragment {
         onPaperStyleSelectedListener.onPaperStyleSelected(paperStyleResId, paperResId);
     }
 }
+*/

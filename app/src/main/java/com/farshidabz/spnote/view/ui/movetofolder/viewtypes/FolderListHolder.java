@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.view.ui.movetofolder.viewtypes;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,10 +10,12 @@ import com.farshidabz.spnote.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/17/2017.
- */
+ *//*
+
 
 public class FolderListHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.tvFolderName)
@@ -23,3 +26,4 @@ public class FolderListHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 }
+*/

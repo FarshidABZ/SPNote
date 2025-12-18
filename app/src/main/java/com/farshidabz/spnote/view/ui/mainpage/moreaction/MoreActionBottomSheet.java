@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.view.ui.mainpage.moreaction;
 
 import android.os.Bundle;
@@ -14,10 +15,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/14/2017.
- */
+ *//*
+
 
 public class MoreActionBottomSheet extends BottomSheetDialogFragment {
 
@@ -74,3 +77,4 @@ public class MoreActionBottomSheet extends BottomSheetDialogFragment {
         dismiss();
     }
 }
+*/

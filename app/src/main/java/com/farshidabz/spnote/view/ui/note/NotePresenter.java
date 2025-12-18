@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.view.ui.note;
 
 import android.content.Context;
@@ -23,10 +24,12 @@ import com.farshidabz.spnote.view.ui.warningdialog.WarningDialog;
 
 import java.util.ArrayList;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/15/2017.
- */
+ *//*
+
 
 public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
         implements NoteMvpPresenter<V> {
@@ -307,3 +310,4 @@ public class NotePresenter<V extends NoteMvpView> extends BasePresenter<V>
         warningDialog.show();
     }
 }
+*/

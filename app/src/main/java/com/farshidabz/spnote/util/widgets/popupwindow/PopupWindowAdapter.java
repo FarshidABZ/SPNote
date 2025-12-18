@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.util.widgets.popupwindow;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,10 +13,12 @@ import com.farshidabz.spnote.model.PopupModel;
 
 import java.util.ArrayList;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/15/2017.
- */
+ *//*
+
 
 public class PopupWindowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -89,3 +92,4 @@ public class PopupWindowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 }
+*/

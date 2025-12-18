@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.view.ui.movetofolder.newfolder;
 
 import android.app.Dialog;
@@ -17,10 +18,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/17/2017.
- */
+ *//*
+
 
 public class CreateNewFolderDialog extends Dialog {
 
@@ -71,3 +74,4 @@ public class CreateNewFolderDialog extends Dialog {
         dismiss();
     }
 }
+*/

@@ -9,7 +9,6 @@ import android.text.Spannable;
 import android.text.TextUtils;
 
 import com.farshidabz.spnote.model.NoteModel;
-import com.farshidabz.spnote.util.BitmapConverter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,9 +57,9 @@ public class NotesTable extends Table<NoteModel> {
         values.put(COLUMN_FOLDER_ID, String.valueOf(noteModel.getFolder_id()));
         values.put(COLUMN_BACKGROUND_DRAWABLE_ID, noteModel.getBackground());
 
-        if (noteModel.getImage() != null) {
-            values.put(COLUMN_IMAGE, BitmapConverter.getBytes(noteModel.getImage()));
-        }
+//        if (noteModel.getImage() != null) {
+//            values.put(COLUMN_IMAGE, BitmapConverter.getBytes(noteModel.getImage()));
+//        }
 
         return db.update(getTableName(), values, COLUMN_ID + "=" + noteModel.getId(), null) > 0;
     }
@@ -78,9 +77,9 @@ public class NotesTable extends Table<NoteModel> {
         values.put(COLUMN_TYPE, noteModel.getType());
         values.put(COLUMN_BACKGROUND_DRAWABLE_ID, noteModel.getBackground());
 
-        if (noteModel.getImage() != null) {
-            values.put(COLUMN_IMAGE, BitmapConverter.getBytes(noteModel.getImage()));
-        }
+//        if (noteModel.getImage() != null) {
+//            values.put(COLUMN_IMAGE, BitmapConverter.getBytes(noteModel.getImage()));
+//        }
 
         return (db.insert(getTableName(), null, values) > 0);
     }
@@ -89,22 +88,22 @@ public class NotesTable extends Table<NoteModel> {
     protected NoteModel CursorToObject(Cursor c) {
         NoteModel noteModel = new NoteModel();
 
-        noteModel.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
-        noteModel.setFolder_id(Integer.parseInt(c.getString(c.getColumnIndex(COLUMN_FOLDER_ID))));
-        noteModel.setAddress(c.getString(c.getColumnIndex(COLUMN_ADDRESS)));
-        noteModel.setTitle(c.getString(c.getColumnIndex(COLUMN_TITLE)));
-        noteModel.setType(c.getString(c.getColumnIndex(COLUMN_TYPE)));
-        noteModel.setImage(BitmapConverter.getImage(c.getBlob(c.getColumnIndex(COLUMN_IMAGE))));
-        noteModel.setBackground(c.getString(c.getColumnIndex(COLUMN_BACKGROUND_DRAWABLE_ID)));
+//        noteModel.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
+//        noteModel.setFolder_id(Integer.parseInt(c.getString(c.getColumnIndex(COLUMN_FOLDER_ID))));
+//        noteModel.setAddress(c.getString(c.getColumnIndex(COLUMN_ADDRESS)));
+//        noteModel.setTitle(c.getString(c.getColumnIndex(COLUMN_TITLE)));
+//        noteModel.setType(c.getString(c.getColumnIndex(COLUMN_TYPE)));
+//        noteModel.setImage(BitmapConverter.getImage(c.getBlob(c.getColumnIndex(COLUMN_IMAGE))));
+//        noteModel.setBackground(c.getString(c.getColumnIndex(COLUMN_BACKGROUND_DRAWABLE_ID)));
 
-        String spannableAsHtml = c.getString(c.getColumnIndex(COLUMN_CONTENT));
-        Spannable spannable = (Spannable) Html.fromHtml(Html.toHtml(Html.fromHtml(spannableAsHtml)));
+//        String spannableAsHtml = c.getString(c.getColumnIndex(COLUMN_CONTENT));
+//        Spannable spannable = (Spannable) Html.fromHtml(Html.toHtml(Html.fromHtml(spannableAsHtml)));
 
-        if (spannable.length() >= 2) {
-            spannable = (Spannable) spannable.subSequence(0, spannable.length() - 2);
-        }
-
-        noteModel.setContent(spannable);
+//        if (spannable.length() >= 2) {
+//            spannable = (Spannable) spannable.subSequence(0, spannable.length() - 2);
+//        }
+//
+//        noteModel.setContent(spannable);
 
         return noteModel;
     }

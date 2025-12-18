@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.view.ui.mainpage.viewtypes;
 
 import com.farshidabz.spnote.R;
@@ -7,10 +8,12 @@ import com.farshidabz.spnote.view.ui.OnItemClickListener;
 // import ir.coderz.ghostadapter.BindItem; // Commented: GhostAdapter library was hosted on JCenter and is unavailable; annotations removed
 // import ir.coderz.ghostadapter.Binder; // Commented: GhostAdapter annotation removed
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/13/2017.
- */
+ *//*
+
 
 // @BindItem(layout = R.layout.content_folders, holder = FolderHolder.class) // Commented: GhostAdapter annotation removed to allow build
 public class FolderItem {
@@ -36,3 +39,4 @@ public class FolderItem {
         //        onItemClickListener.onItemClicked(folderHolder.getLayoutPosition(), folderModel));
     }
 }
+*/

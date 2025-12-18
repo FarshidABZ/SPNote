@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.util.widgets;
 
 import android.content.Context;
@@ -14,10 +15,12 @@ import android.view.View;
 
 import com.farshidabz.spnote.util.ScreenUtils;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/14/2017.
- */
+ *//*
+
 
 public class DrawingView extends View {
 
@@ -124,11 +127,13 @@ public class DrawingView extends View {
         path.reset();
     }
 
-    /**
+    */
+/**
      * Enable or disable drawing functionality
      *
      * @param canDraw the can draw
-     */
+     *//*
+
     public void canDraw(boolean canDraw) {
         this.canDraw = canDraw;
     }
@@ -158,11 +163,13 @@ public class DrawingView extends View {
         return true;
     }
 
-    /**
+    */
+/**
      * Sets erase mode.
      *
      * @param isErase the is erase
-     */
+     *//*
+
     public void setErase(boolean isErase) {
         if (isErase) {
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
@@ -178,11 +185,13 @@ public class DrawingView extends View {
         paint.setColor(context.getResources().getColor(paintColor));
     }
 
-    /**
+    */
+/**
      * Gets drawn image as bitmap.
      *
      * @return the canvas bitmap
-     */
+     *//*
+
     public Bitmap getCanvasBitmap() {
         return bitmap;
     }
@@ -202,4 +211,4 @@ public class DrawingView extends View {
     public boolean isSomethingDrawn() {
         return somethingDrawn;
     }
-}
+}*/

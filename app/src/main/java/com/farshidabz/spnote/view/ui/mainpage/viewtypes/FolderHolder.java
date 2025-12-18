@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.view.ui.mainpage.viewtypes;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,10 +10,12 @@ import com.farshidabz.spnote.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/13/2017.
- */
+ *//*
+
 
 public class FolderHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.tvFoldersNotesCount)
@@ -26,3 +29,4 @@ public class FolderHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 }
+*/

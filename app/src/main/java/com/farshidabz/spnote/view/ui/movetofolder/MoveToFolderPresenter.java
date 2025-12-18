@@ -1,3 +1,4 @@
+/*
 package com.farshidabz.spnote.view.ui.movetofolder;
 
 import android.content.Context;
@@ -11,10 +12,12 @@ import com.farshidabz.spnote.view.ui.movetofolder.newfolder.CreateNewFolderDialo
 
 import java.util.List;
 
+*/
 /**
  * Created by FarshidAbz.
  * Since 4/17/2017.
- */
+ *//*
+
 
 public class MoveToFolderPresenter<V extends MoveToFolderMvpView> extends BasePresenter<V>
         implements MoveToFolderMvpPresenter<V> {
@@ -65,3 +68,4 @@ public class MoveToFolderPresenter<V extends MoveToFolderMvpView> extends BasePr
         createNewFolderDialog.show();
     }
 }
+*/
