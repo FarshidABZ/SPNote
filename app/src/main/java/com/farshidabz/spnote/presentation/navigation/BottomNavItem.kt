@@ -2,6 +2,7 @@ package com.farshidabz.spnote.presentation.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.ui.graphics.Color
 
 data class BottomNavItem(
     val route: String,

@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.farshidabz.spnote.presentation.feature.home.HomeScreenRoute
+import com.farshidabz.spnote.presentation.feature.notedetail.NoteDetailScreenRoute
 
 /**
  * Navigation host for the app.
@@ -50,9 +51,9 @@ fun SPNoteNavHost(
                 },
             )
         ) { backStackEntry ->
-            val noteId = backStackEntry.arguments?.getInt("noteId")?.takeIf { it != -1 }
-
-            Text("Note detail: " + (noteId?.toString() ?: "New"))
+            NoteDetailScreenRoute(onBack = {
+                navController.popBackStack()
+            })
         }
     }
 }

@@ -40,7 +40,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.farshidabz.spnote.R
 import com.farshidabz.spnote.designsystem.component.SearchBar
+import com.farshidabz.spnote.designsystem.theme.SPNoteTheme
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun HomeScreenRoute(
@@ -79,7 +81,7 @@ private fun HomeScreen(
         effects.collect { onEffect(it) }
     }
     if (state.isEmpty) {
-        EmptyStateContent()
+        EmptyStateContent({ onEvent(HomeEvent.FabClicked) })
     } else {
         Scaffold(
             floatingActionButton = {
@@ -119,7 +121,7 @@ private fun HomeScreen(
 }
 
 @Composable
-fun EmptyStateContent() {
+fun EmptyStateContent(onNewNoteClick: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -127,7 +129,7 @@ fun EmptyStateContent() {
     ) {
         EmptyState()
         Button(
-            onClick = {},
+            onClick = onNewNoteClick,
             modifier = Modifier
                 .padding(top = 24.dp)
                 .height(64.dp)
@@ -250,13 +252,13 @@ fun HomePreview(modifier: Modifier = Modifier) {
             NoteUi(15, "Meeting Notes", "Discuss Q4 goals to fire-starting months."),
         )
     )
-    MaterialTheme {
+    SPNoteTheme {
         HomeScreen(
             modifier = modifier,
             state = previewState,
             onEvent = {},
             onEffect = {},
-            effects = kotlinx.coroutines.flow.emptyFlow(),
+            effects = emptyFlow(),
         )
     }
 }
@@ -268,13 +270,13 @@ fun HomePreviewEmpty(modifier: Modifier = Modifier) {
         query = "",
         notes = emptyList()
     )
-    MaterialTheme {
+    SPNoteTheme {
         HomeScreen(
             modifier = modifier,
             state = previewState,
             onEvent = {},
             onEffect = {},
-            effects = kotlinx.coroutines.flow.emptyFlow(),
+            effects = emptyFlow(),
         )
     }
 }

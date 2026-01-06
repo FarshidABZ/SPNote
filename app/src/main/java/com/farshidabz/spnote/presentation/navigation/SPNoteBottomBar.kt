@@ -2,17 +2,21 @@ package com.farshidabz.spnote.presentation.navigation
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ShortNavigationBar
 import androidx.compose.material3.ShortNavigationBarItem
-import androidx.compose.material3.Text
+import androidx.compose.material3.ShortNavigationBarItemDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.farshidabz.spnote.R
+import com.farshidabz.spnote.designsystem.theme.SPNoteTheme
 
 val bottomNavItems = listOf(
     BottomNavItem(
@@ -46,13 +50,13 @@ fun SPNoteBottomBar(
 
     if (!showBottomBar) return
 
-    ShortNavigationBar {
+    ShortNavigationBar(containerColor = MaterialTheme.colorScheme.primaryContainer) {
         items.forEach { item ->
             val selected =
                 currentDestination.hierarchy.any { it.route == item.route }
 
             ShortNavigationBarItem(
-                label = { Text(text = stringResource(id = item.labelRes)) },
+                label = null,
                 selected = selected,
                 onClick = { onItemClick(item) },
                 icon = {
@@ -61,11 +65,15 @@ fun SPNoteBottomBar(
                         painter = painterResource(
                             id = if (selected) item.selectedIconRes else item.unselectedIconRes
                         ),
-                        contentDescription = stringResource(item.labelRes)
+                        contentDescription = stringResource(item.labelRes),
                     )
                 },
-
+                colors = ShortNavigationBarItemDefaults.colors().copy(
+                    selectedIconColor = MaterialTheme.colorScheme.primary,
+                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    selectedIndicatorColor = MaterialTheme.colorScheme.primaryContainer
                 )
+            )
         }
     }
 }
