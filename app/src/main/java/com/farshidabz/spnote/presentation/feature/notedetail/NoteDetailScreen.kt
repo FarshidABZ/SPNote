@@ -2,6 +2,7 @@ package com.farshidabz.spnote.presentation.feature.notedetail
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,11 +21,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -41,6 +44,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -50,10 +54,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.ImageBitmapConfig
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
@@ -100,12 +112,17 @@ fun NoteDetailScreen(
     val density = LocalDensity.current
     val sheetState = rememberModalBottomSheetState()
 
-    // Local UI state for "Hot" path (Digital Ink) - Redraws on trigger
-    var activePath by remember { mutableStateOf<Path?>(null) }
-    var drawTrigger by remember { mutableStateOf(0) }
+    // --- BITMAP DRAWING STATE ---
+    // This replicates your 'private Bitmap bitmap' from Java
+    var persistentBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
+    var bitmapCanvas by remember { mutableStateOf<Canvas?>(null) }
+
+    // This replicates your 'private Path path'
+    val currentStrokePath = remember { Path() }
+    var drawTrigger by remember { mutableIntStateOf(0) }
     var textLayoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
 
-    // --- Side Effects: Scroll & Focus ---
+    // --- SIDE EFFECTS (Scroll/Focus) ---
     LaunchedEffect(state.textFieldValue.selection, state.viewportHeight) {
         val layout = textLayoutResult ?: return@LaunchedEffect
         val selectionIndex = state.textFieldValue.selection.start
@@ -139,7 +156,8 @@ fun NoteDetailScreen(
             NoteTopAppBar(
                 state.isDrawingMode,
                 onBack = onBack,
-                onToggle = { onIntent(NoteIntent.ToggleMode(!state.isDrawingMode)) }
+                onToggle = { onIntent(NoteIntent.ToggleMode(!state.isDrawingMode)) },
+                onOpenPaperStyle = { onIntent(NoteIntent.SetPaperSheetVisible(true)) }
             )
         },
         floatingActionButton = {
@@ -164,7 +182,19 @@ fun NoteDetailScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
-                    .onGloballyPositioned { onIntent(NoteIntent.UpdateDimensions(viewportH = it.size.height)) }
+                    .onGloballyPositioned { coords ->
+                        if (persistentBitmap == null) {
+                            val size = coords.size
+                            val newBitmap = ImageBitmap(
+                                size.width,
+                                size.height,
+                                ImageBitmapConfig.Argb8888
+                            )
+                            persistentBitmap = newBitmap
+                            bitmapCanvas = Canvas(newBitmap)
+                            onIntent(NoteIntent.UpdateDimensions(viewportH = size.height))
+                        }
+                    }
                     .verticalScroll(scrollState)
             ) {
                 Column(
@@ -172,52 +202,75 @@ fun NoteDetailScreen(
                         .fillMaxWidth()
                         .defaultMinSize(minHeight = with(density) { state.viewportHeight.toDp() })
                         .drawBehind {
-                            // Reads drawTrigger to force a redraw when finger moves
-                            val _t = drawTrigger
+                            // Redraw trigger to update UI when bitmap changes
+                            val _trigger = drawTrigger
 
-                            // Draw all saved paths with their OWN properties
-                            state.paths.forEach { item ->
-                                drawPath(
-                                    path = item.path,
-                                    color = item.color,
-                                    style = Stroke(
-                                        width = item.strokeWidth,
-                                        cap = StrokeCap.Round,
-                                        join = StrokeJoin.Round
-                                    )
-                                )
+                            // 1. Draw Paper Style (Background)
+                            val lineHeight =
+                                textLayoutResult?.multiParagraph?.getLineHeight(0) ?: 32.dp.toPx()
+                            drawPaperBackground(state.paperStyle, lineHeight)
+
+                            // 2. Draw the Persistent Bitmap (All saved strokes)
+                            persistentBitmap?.let {
+                                drawImage(it)
                             }
 
-                            // Draw the active path with CURRENT state properties
-                            activePath?.let {
+                            // 3. Draw the active path (Immediate feedback while dragging)
+                            // We use SrcOver for the preview line
+                            if (state.drawingMode == DrawingMode.PEN) {
                                 drawPath(
-                                    path = it,
+                                    path = currentStrokePath,
                                     color = state.brushColor,
-                                    style = Stroke(
-                                        width = state.strokeWidth,
-                                        cap = StrokeCap.Round,
-                                        join = StrokeJoin.Round
-                                    )
+                                    style = Stroke(state.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round)
                                 )
                             }
+
+//                            drawPath(
+//                                path = currentStrokePath,
+//                                color = if (state.drawingMode == DrawingMode.ERASER) Color.Transparent else state.brushColor,
+//                                style = Stroke(
+//                                    width = if (state.drawingMode == DrawingMode.ERASER) 50f else state.strokeWidth,
+//                                    cap = StrokeCap.Round,
+//                                    join = StrokeJoin.Round
+//                                ),
+//                                blendMode = if (state.drawingMode == DrawingMode.ERASER) BlendMode.Clear else BlendMode.SrcOver
+//                            )
                         }
-                        .pointerInput(state.isDrawingMode) {
+                        .pointerInput(state.isDrawingMode, state.drawingMode, state.brushColor, state.strokeWidth) {
                             if (!state.isDrawingMode) return@pointerInput
+
                             detectDragGestures(
                                 onDragStart = { offset ->
-                                    activePath = Path().apply { moveTo(offset.x, offset.y) }
+                                    currentStrokePath.reset()
+                                    currentStrokePath.moveTo(offset.x, offset.y)
                                 },
                                 onDrag = { change, _ ->
                                     change.consume()
-                                    activePath?.lineTo(change.position.x, change.position.y)
+                                    currentStrokePath.lineTo(change.position.x, change.position.y)
+
+                                    // 1. DRAW TO BITMAP IMMEDIATELY (This makes it feel real-time)
+                                    bitmapCanvas?.let { can ->
+                                        val paint = Paint().apply {
+                                            isAntiAlias = true
+                                            style = PaintingStyle.Stroke
+                                            strokeWidth = if (state.drawingMode == DrawingMode.ERASER) 60f else state.strokeWidth
+
+                                            // UX FIX: Use Transparent and Clear mode while dragging
+                                            color = if (state.drawingMode == DrawingMode.ERASER) Color.Transparent else state.brushColor
+                                            blendMode = if (state.drawingMode == DrawingMode.ERASER) BlendMode.Clear else BlendMode.SrcOver
+
+                                            strokeCap = StrokeCap.Round
+                                            strokeJoin = StrokeJoin.Round
+                                        }
+                                        can.drawPath(currentStrokePath, paint)
+                                    }
+
+                                    // 2. Force UI refresh
                                     drawTrigger++
                                 },
                                 onDragEnd = {
-                                    activePath?.let {
-                                        // Just send the path; the VM handles the rest
-                                        onIntent(NoteIntent.AddPath(it))
-                                    }
-                                    activePath = null
+                                    currentStrokePath.reset()
+                                    drawTrigger++
                                 }
                             )
                         }
@@ -245,16 +298,20 @@ fun NoteDetailScreen(
             }
         }
 
+        // --- Bottom Sheets ---
+        if (state.isPaperSheetVisible) {
+            ModalBottomSheet(onDismissRequest = { onIntent(NoteIntent.SetPaperSheetVisible(false)) }) {
+                PaperStyleBottomSheet(state, onIntent)
+            }
+        }
+
         if (state.isSheetVisible) {
             ModalBottomSheet(
                 onDismissRequest = { onIntent(NoteIntent.SetSheetVisible(false)) },
                 sheetState = sheetState
             ) {
-                if (state.isDrawingMode) {
-                    DrawingToolsContent(state, onIntent)
-                } else {
-                    FormattingToolsContent(state, onIntent)
-                }
+                if (state.isDrawingMode) DrawingToolsContent(state, onIntent)
+                else FormattingToolsContent(state, onIntent)
             }
         }
     }
@@ -262,7 +319,12 @@ fun NoteDetailScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NoteTopAppBar(isDrawingMode: Boolean, onBack: () -> Unit, onToggle: () -> Unit) {
+fun NoteTopAppBar(
+    isDrawingMode: Boolean,
+    onBack: () -> Unit,
+    onToggle: () -> Unit,
+    onOpenPaperStyle: () -> Unit
+) {
     TopAppBar(
         title = { Text("Note Title", style = MaterialTheme.typography.titleLarge) },
         navigationIcon = {
@@ -283,6 +345,13 @@ fun NoteTopAppBar(isDrawingMode: Boolean, onBack: () -> Unit, onToggle: () -> Un
                     contentDescription = "Switch Mode"
                 )
             }
+
+            IconButton(onClick = onOpenPaperStyle) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_search),
+                    contentDescription = "Paper Style"
+                )
+            }
         }
     )
 }
@@ -294,6 +363,20 @@ fun DrawingToolsContent(state: NoteState, onIntent: (NoteIntent) -> Unit) {
             .padding(16.dp)
             .navigationBarsPadding()
     ) {
+        Text("Mode", style = MaterialTheme.typography.labelMedium)
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            FilterChip(
+                selected = state.drawingMode == DrawingMode.PEN,
+                onClick = { onIntent(NoteIntent.SetDrawingMode(DrawingMode.PEN)) },
+                label = { Text("Pen") }
+            )
+            FilterChip(
+                selected = state.drawingMode == DrawingMode.ERASER,
+                onClick = { onIntent(NoteIntent.SetDrawingMode(DrawingMode.ERASER)) },
+                label = { Text("Eraser") }
+            )
+        }
+
         Text("Brush Thickness", style = MaterialTheme.typography.labelMedium)
         Slider(
             value = state.strokeWidth,
@@ -433,6 +516,180 @@ fun FormattingToolsContent(state: NoteState, onIntent: (NoteIntent) -> Unit) {
                 Text("Confirm")
             }
         }
+    }
+}
+
+// Helper to draw the actual background lines
+fun DrawScope.drawPaperBackground(style: PaperStyle, lineHeight: Float) {
+    val grayColor = Color.LightGray.copy(alpha = 0.5f)
+
+    when (style) {
+        PaperStyle.LINE -> {
+            var y = lineHeight
+            while (y < size.height) {
+                drawLine(grayColor, Offset(0f, y), Offset(size.width, y), strokeWidth = 1.dp.toPx())
+                y += lineHeight
+            }
+        }
+
+        PaperStyle.GRID -> {
+            val step = 32.dp.toPx()
+            for (x in 0..(size.width / step).toInt()) {
+                drawLine(grayColor, Offset(x * step, 0f), Offset(x * step, size.height))
+            }
+            for (y in 0..(size.height / step).toInt()) {
+                drawLine(grayColor, Offset(0f, y * step), Offset(size.width, y * step))
+            }
+        }
+
+        PaperStyle.SIMPLE -> {}
+    }
+}
+
+@Composable
+fun PaperStyleSelector(selected: PaperStyle, onSelect: (PaperStyle) -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        PaperStyleItem("Simple", selected == PaperStyle.SIMPLE) { onSelect(PaperStyle.SIMPLE) }
+        PaperStyleItem("Line", selected == PaperStyle.LINE) { onSelect(PaperStyle.LINE) }
+        PaperStyleItem("Grid", selected == PaperStyle.GRID) { onSelect(PaperStyle.GRID) }
+    }
+}
+
+@Composable
+fun PaperStyleItem(label: String, isSelected: Boolean, onClick: () -> Unit) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(
+            modifier = Modifier
+                .size(60.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(
+                    if (isSelected) MaterialTheme.colorScheme.primaryContainer else Color.LightGray.copy(
+                        0.2f
+                    )
+                )
+                .border(
+                    2.dp,
+                    if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
+                    RoundedCornerShape(8.dp)
+                )
+                .clickable { onClick() },
+            contentAlignment = Alignment.Center
+        ) {
+            // Mini icon or preview drawing here
+            Text(label.take(1))
+        }
+        Text(
+            label,
+            style = MaterialTheme.typography.labelSmall,
+            modifier = Modifier.padding(top = 4.dp)
+        )
+    }
+}
+
+@Composable
+fun PaperStyleBottomSheet(state: NoteState, onIntent: (NoteIntent) -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(24.dp)
+            .navigationBarsPadding()
+    ) {
+        Text(
+            text = "Paper Style",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            PaperStyleOption(
+                label = "Simple",
+                isSelected = state.paperStyle == PaperStyle.SIMPLE,
+                onClick = { onIntent(NoteIntent.UpdatePaperStyle(PaperStyle.SIMPLE)) }
+            ) {
+                // Just a blank box
+            }
+
+            PaperStyleOption(
+                label = "Line",
+                isSelected = state.paperStyle == PaperStyle.LINE,
+                onClick = { onIntent(NoteIntent.UpdatePaperStyle(PaperStyle.LINE)) }
+            ) {
+                Canvas(Modifier.fillMaxSize()) {
+                    val step = size.height / 5
+                    for (i in 1..4) {
+                        drawLine(
+                            Color.LightGray,
+                            Offset(0f, i * step),
+                            Offset(size.width, i * step),
+                            1f
+                        )
+                    }
+                }
+            }
+
+            PaperStyleOption(
+                label = "Grid",
+                isSelected = state.paperStyle == PaperStyle.GRID,
+                onClick = { onIntent(NoteIntent.UpdatePaperStyle(PaperStyle.GRID)) }
+            ) {
+                Canvas(Modifier.fillMaxSize()) {
+                    val step = 10.dp.toPx()
+                    for (x in 0..(size.width / step).toInt()) {
+                        drawLine(
+                            Color.LightGray.copy(0.3f),
+                            Offset(x * step, 0f),
+                            Offset(x * step, size.height)
+                        )
+                    }
+                    for (y in 0..(size.height / step).toInt()) {
+                        drawLine(
+                            Color.LightGray.copy(0.3f),
+                            Offset(0f, y * step),
+                            Offset(size.width, y * step)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun PaperStyleOption(
+    label: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    preview: @Composable () -> Unit
+) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Surface(
+            modifier = Modifier
+                .size(72.dp)
+                .border(
+                    width = if (isSelected) 3.dp else 1.dp,
+                    color = if (isSelected) MaterialTheme.colorScheme.primary else Color.LightGray,
+                    shape = RoundedCornerShape(12.dp)
+                )
+                .clip(RoundedCornerShape(12.dp))
+                .clickable { onClick() },
+            color = Color(0xFFFFF9C4) // Match the paper color
+        ) {
+            Box(Modifier.padding(4.dp)) { preview() }
+        }
+        Text(
+            text = label,
+            modifier = Modifier.padding(top = 8.dp),
+            style = MaterialTheme.typography.labelMedium,
+            color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Unspecified
+        )
     }
 }
 

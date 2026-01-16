@@ -1,5 +1,6 @@
 package com.farshidabz.spnote.presentation.feature.notedetail
 
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.text.input.TextFieldValue
@@ -7,11 +8,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 data class DrawingPath(
     val path: Path,
     val color: Color = Color.Black,
-    val strokeWidth: Float = 5f
+    val width: Float = 5f,
+    val isEraser: Boolean = false
 )
 
 enum class PaperStyle { SIMPLE, LINE, GRID }
 enum class TextFormat { BOLD, ITALIC, UNDERLINE }
+enum class DrawingMode { PEN, ERASER }
 
 data class NoteState(
     val isLoading: Boolean = false,
@@ -26,7 +29,10 @@ data class NoteState(
     val strokeWidth: Float = 5f,
     val brushColor: Color = Color.Black,
     val activeTextColor: Color = Color.Black,
-    val paperStyle: PaperStyle = PaperStyle.SIMPLE
+    val paperStyle: PaperStyle = PaperStyle.SIMPLE,
+    val isPaperSheetVisible: Boolean = false,
+    val drawingMode: DrawingMode = DrawingMode.PEN,
+    val eraserSensitivity: Float = 40f
 )
 
 sealed class NoteIntent {
@@ -38,9 +44,12 @@ sealed class NoteIntent {
     data class AddPath(val path: Path) : NoteIntent()
     data class UpdateBrush(val color: Color? = null, val width: Float? = null) : NoteIntent()
     data class UpdateTextColor(val color: Color) : NoteIntent()
+    data class SetPaperSheetVisible(val visible: Boolean) : NoteIntent()
     data class UpdatePaperStyle(val style: PaperStyle) : NoteIntent()
     data object ConfirmStyles : NoteIntent()
     data object ClearToDefault : NoteIntent()
     data object ClearCanvas : NoteIntent()
     data object SaveNote : NoteIntent()
+    data class SetDrawingMode(val mode: DrawingMode) : NoteIntent()
+    data class EraseAt(val offset: Offset) : NoteIntent()
 }

@@ -1,5 +1,10 @@
 package com.farshidabz.spnote.presentation.feature.notedetail
 
+import android.util.Log
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
@@ -28,6 +33,13 @@ class NoteDetailViewModel @Inject constructor(
                 _state.update { it.copy(activeStyles = if (it.activeStyles.contains(intent.format)) it.activeStyles - intent.format else it.activeStyles + intent.format) }
             }
 
+            is NoteIntent.SetDrawingMode -> _state.update {
+                Log.e("Farshid", "SetDrawingMode: ${intent.mode}")
+                it.copy(drawingMode = intent.mode)
+            }
+
+            is NoteIntent.EraseAt -> handleEraser(intent.offset)
+
             is NoteIntent.UpdateBrush -> {
                 _state.update { currentState ->
                     currentState.copy(
@@ -39,16 +51,24 @@ class NoteDetailViewModel @Inject constructor(
 
             is NoteIntent.AddPath -> {
                 _state.update { currentState ->
-                    val newDrawingPath = DrawingPath(
+                    val isEraserMode = currentState.drawingMode == DrawingMode.ERASER
+
+                    val newStroke = DrawingPath(
                         path = intent.path,
-                        color = currentState.brushColor,
-                        strokeWidth = currentState.strokeWidth
+                        // Eraser color doesn't matter when using BlendMode.Clear, but Transparent is safe
+                        color = if (isEraserMode) Color.Transparent else currentState.brushColor,
+                        // Eraser is usually wider for better UX
+                        width = if (isEraserMode) 50f else currentState.strokeWidth,
+                        isEraser = isEraserMode
                     )
-                    currentState.copy(paths = currentState.paths + newDrawingPath)
+
+                    currentState.copy(paths = currentState.paths + newStroke)
                 }
             }
 
             is NoteIntent.ConfirmStyles -> handleConfirm()
+            is NoteIntent.SetPaperSheetVisible -> _state.update { it.copy(isPaperSheetVisible = intent.visible) }
+            is NoteIntent.UpdatePaperStyle -> _state.update { it.copy(paperStyle = intent.style) }
             is NoteIntent.ClearToDefault -> handleClear()
             is NoteIntent.SetSheetVisible -> _state.update { it.copy(isSheetVisible = intent.visible) }
             is NoteIntent.ToggleMode -> _state.update { it.copy(isDrawingMode = intent.isDrawing) }
@@ -142,6 +162,48 @@ class NoteDetailViewModel @Inject constructor(
             }.let { newValue.copy(annotatedString = it) }
         }
         _state.update { it.copy(textFieldValue = processedValue) }
+    }
+
+    private fun handleEraser(offset: Offset) {
+        Log.e("Farshid", "handleEraser: $offset")
+        _state.update { currentState ->
+            // Filter out paths that are "hit" by the eraser point
+            val remainingPaths = currentState.paths.filterNot { drawingPath ->
+                isPointNearPath(offset, drawingPath.path, currentState.eraserSensitivity)
+            }
+
+            // Only update state if something actually was erased (performance optimization)
+            if (remainingPaths.size != currentState.paths.size) {
+                currentState.copy(paths = remainingPaths)
+            } else {
+                currentState
+            }
+        }
+    }
+
+    private fun isPointNearPath(point: Offset, path: Path, threshold: Float): Boolean {
+        // We convert the Compose Path to an Android Path to use PathMeasure
+        val androidPath = path.asAndroidPath()
+        val pm = android.graphics.PathMeasure(androidPath, false)
+        val pos = floatArrayOf(0f, 0f)
+        val pathLength = pm.length
+
+        // Performance: Check every 12 pixels along the path
+        val step = 12f
+        var distance = 0f
+
+        while (distance < pathLength) {
+            pm.getPosTan(distance, pos, null)
+            val dx = point.x - pos[0]
+            val dy = point.y - pos[1]
+
+            // Basic Pythagorean distance check
+            if (Math.sqrt((dx * dx + dy * dy).toDouble()) < threshold) {
+                return true
+            }
+            distance += step
+        }
+        return false
     }
 
     private fun handleConfirm() {
