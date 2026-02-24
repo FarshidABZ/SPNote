@@ -216,7 +216,6 @@ fun NoteDetailScreen(
                             }
 
                             // 3. Draw the active path (Immediate feedback while dragging)
-                            // We use SrcOver for the preview line
                             if (state.drawingMode == DrawingMode.PEN) {
                                 drawPath(
                                     path = currentStrokePath,
@@ -224,17 +223,6 @@ fun NoteDetailScreen(
                                     style = Stroke(state.strokeWidth, cap = StrokeCap.Round, join = StrokeJoin.Round)
                                 )
                             }
-
-//                            drawPath(
-//                                path = currentStrokePath,
-//                                color = if (state.drawingMode == DrawingMode.ERASER) Color.Transparent else state.brushColor,
-//                                style = Stroke(
-//                                    width = if (state.drawingMode == DrawingMode.ERASER) 50f else state.strokeWidth,
-//                                    cap = StrokeCap.Round,
-//                                    join = StrokeJoin.Round
-//                                ),
-//                                blendMode = if (state.drawingMode == DrawingMode.ERASER) BlendMode.Clear else BlendMode.SrcOver
-//                            )
                         }
                         .pointerInput(state.isDrawingMode, state.drawingMode, state.brushColor, state.strokeWidth) {
                             if (!state.isDrawingMode) return@pointerInput
